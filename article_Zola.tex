@@ -1,0 +1,46 @@
+\documentclass{article}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[french]{babel}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{longtable}
+\usepackage{booktabs}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{hyperref}
+
+\lstset{
+  basicstyle=\ttfamily\footnotesize,
+  breaklines=true,
+  breakatwhitespace=true,
+  columns=fullflexible,
+  keepspaces=true,
+  frame=single,
+  numbers=left,
+  numberstyle=\tiny,
+  captionpos=b,
+  showstringspaces=false
+}
+
+\title{Analyse des thèmes dans les romans de Zola}
+\author{Morgan RICHARD}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\input{section/1_introduction}
+\input{section/2_corpus}
+\input{section/3_méthodologie}
+\input{section/4_modelisation}
+\input{section/5_resultats}
+\input{section/6_comparaison}
+\input{section/7_conclusion}
+
+\appendix
+\input{section/code}
+
+\end{document}

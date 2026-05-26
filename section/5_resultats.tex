@@ -1,0 +1,287 @@
+\section{Résultats}
+
+\subsection{Topics obtenus avec le NMF}
+\subsubsection{Identification et interprétation des topics}
+
+Une fois le modèle entraîné, les mots les plus importants de chaque topic ont été extraits afin de faciliter leur interprétation. Cette étape est essentielle, car le NMF ne produit pas directement des noms de thèmes : elle produit des groupes de mots. L'attribution d'un nom à chaque topic repose donc sur une analyse qualitative des termes les plus représentatifs.
+
+\begin{lstlisting}[language=Python, caption={Affichage des mots les plus importants par topic}]
+def afficher_topics(model, feature_names, n_top_words=10):
+    for topic_idx, topic in enumerate(model.components_):
+        top_words = [
+            feature_names[i]
+            for i in topic.argsort()[:-n_top_words - 1:-1]
+        ]
+        print(f"Topic {topic_idx+1} : {' | '.join(top_words)}")
+
+feature_names = vectorizer.get_feature_names_out()
+afficher_topics(nmf, feature_names)
+\end{lstlisting}
+
+Chaque topic a ensuite été nommé à partir des mots dominants et de l'observation des segments les plus fortement associés à ce topic. Cette double vérification permet de limiter les erreurs d'interprétation. En effet, certains mots peuvent sembler cohérents isolément, mais prendre un sens différent lorsqu'ils sont replacés dans les extraits du corpus.
+
+Les topics obtenus couvrent plusieurs dimensions importantes de l'œuvre de Zola. Certains renvoient à des espaces sociaux précis, comme le magasin, la mine, la bourse, le quartier ou le monde ferroviaire. D'autres correspondent à des thèmes plus transversaux, comme la famille, le désir, la maladie, la religion, la pauvreté ou la mort. Cette diversité montre que le NMF permet de faire apparaître à la fois des thèmes sociaux, des motifs narratifs et des univers propres à certains romans.
+
+\subsubsection{Attribution d'un topic dominant à chaque segment}
+
+Pour analyser plus précisément la répartition des thèmes dans le corpus, un topic dominant a été attribué à chaque segment. Pour cela, les poids de la matrice \texttt{W} ont d'abord été normalisés afin de rendre les contributions des topics comparables entre les segments. Le topic dominant correspond ensuite au topic ayant le poids le plus élevé pour un segment donné.
+
+\begin{lstlisting}[language=Python, caption={Attribution du topic dominant à chaque segment}]
+W_norm = W / W.sum(axis=1, keepdims=True)
+
+df["topic_dominant"] = W_norm.argmax(axis=1)
+df["poids_topic"] = W_norm.max(axis=1)
+\end{lstlisting}
+
+La colonne \texttt{topic\_dominant} indique le topic le plus représenté dans chaque paquet de phrases. La colonne \texttt{poids\_topic} mesure l'intensité de cette association. Plus cette valeur est élevée, plus le segment est clairement associé à un topic spécifique. À l'inverse, un poids faible peut indiquer un segment plus mixte, contenant plusieurs thèmes ou ne correspondant fortement à aucun topic.
+
+Cette étape permet de passer d'une simple liste de topics à une analyse plus structurée de leur répartition dans le corpus. Elle rend possible l'étude du nombre de segments associés à chaque topic, du poids moyen des topics dans l'ensemble du corpus et de la présence des thèmes selon les romans. Elle permettrait également, dans un second temps, d'appliquer un détecteur de motifs sur les segments associés à chaque topic afin d'identifier les motifs narratifs les plus caractéristiques de chaque thème.
+
+\subsubsection{Nommer les topics}
+
+Les topics ont ensuite été nommés manuellement à partir des mots les plus représentatifs et des segments les plus fortement associés. Cette étape constitue une part qualitative importante de l'analyse. Elle permet de transformer les résultats numériques du modèle en catégories interprétables.
+
+\begin{lstlisting}[language=Python, caption={Attribution manuelle des noms de topics}]
+noms_topics_nmf = {
+    1: "Les relations conjugales et la vie domestique",
+    2: "Le travail, le peuple et la justice sociale",
+    3: "La nature et le paysage",
+    4: "La bourse, la finance et les affaires",
+    5: "Le clerge et la paroisse",
+    6: "La table et les repas",
+    7: "Le corps, la souffrance et la mort",
+    8: "L'argent et la fortune",
+    9: "Les conversations et les scenes domestiques",
+    10: "Le quartier et la ville",
+    11: "Le monde ferroviaire",
+    12: "Le miracle, le pelerinage et la religion",
+    13: "Les liens familiaux, l'ecriture et les proches",
+    14: "Le pouvoir religieux",
+    15: "L'ecole et l'instruction",
+    16: "La famille, la terre et le monde paysan",
+    17: "Le monde ouvrier et la mine",
+    18: "La guerre, les soldats et l'armee",
+    19: "Le desir, le mariage et les relations amoureuses",
+    20: "Le magasin, la vente et les clientes",
+    21: "Le monde medical et la sante",
+    22: "Le monde artistique et la peinture",
+    23: "La chambre, le lit et l'espace intime",
+    24: "L'enfance, la maternite et la pauvrete",
+    25: "Le commerce alimentaire et les halles",
+    26: "Le salon, l'aristocratie et les scenes mondaines",
+    27: "Le pouvoir politique et les affaires publiques",
+    28: "L'amour, le bonheur et les sentiments",
+    29: "L'insurrection et la revolution"
+}
+\end{lstlisting}
+
+
+
+Cette étape montre que l’analyse ne repose pas uniquement sur une extraction automatique. Le modèle propose des regroupements de mots, mais leur interprétation dépend d’un travail humain. Les noms attribués aux topics doivent donc être compris comme des catégories d’analyse construites à partir des résultats du modèle, et non comme des vérités objectives produites automatiquement par l’algorithme.
+
+\subsection{Clusters obtenus avec K-means}
+
+
+\subsubsection{Extraction des mots caractéristiques des clusters}
+
+Une fois le modèle entraîné, les centres des clusters ont été analysés afin d'identifier les termes les plus représentatifs de chaque groupe. Dans K-means, chaque cluster est représenté par un centroïde, c'est-à-dire un point moyen dans l'espace vectoriel. Les termes les plus fortement associés à ce centroïde permettent de comprendre le contenu thématique du cluster.
+
+\begin{lstlisting}[language=Python, caption={Extraction des mots les plus représentatifs par cluster}]
+terms = vectorizer.get_feature_names_out()
+centres = kmeans.cluster_centers_
+
+for i, centre in enumerate(centres):
+    top_indices = centre.argsort()[::-1][:10]
+    mots = [terms[j] for j in top_indices]
+    print(f"Cluster {i+1} :", " | ".join(mots))
+\end{lstlisting}
+
+Cette étape est comparable à l'extraction des mots dominants dans le NMF. Elle permet d'associer chaque cluster à un ensemble de termes caractéristiques. Cependant, l'interprétation est légèrement différente : dans le NMF, les mots sont associés à un topic latent ; dans K-means, ils décrivent le centre lexical d'un groupe de segments. Autrement dit, les mots obtenus indiquent ce qui rapproche les segments d'un même cluster.
+
+Cette extraction permet de vérifier la cohérence interne des clusters. Lorsqu'un cluster rassemble des mots appartenant au même champ lexical, il devient plus facilement interprétable. À l'inverse, un cluster contenant des mots trop dispersés ou peu cohérents peut indiquer un regroupement moins stable ou plus difficile à nommer.
+
+\subsubsection{Nomination des clusters}
+
+Les clusters ont ensuite été nommés manuellement à partir des mots les plus représentatifs et de l'observation des segments associés. Cette étape est indispensable, car K-means ne produit pas directement des intitulés interprétables. Comme pour le NMF, le passage du résultat numérique à l'interprétation thématique repose donc sur une lecture qualitative.
+
+\begin{lstlisting}[language=Python, caption={Attribution manuelle des noms de clusters}]
+noms_clusters_kmeans = {
+    1: "La table, les repas et les boissons",
+    2: "L'ecole, les eleves et l'instruction",
+    3: "Le salon, l'aristocratie et les apparences",
+    4: "La chambre, le lit et l'espace domestique",
+    5: "L'enfance, la maternite et la pauvrete",
+    6: "La mere, les enfants et la famille",
+    7: "Le monde ferroviaire",
+    8: "L'amour, les sentiments et la jeunesse",
+    9: "Le theatre, la loge et les scenes mondaines",
+    10: "Le clerge et la paroisse",
+    11: "La nature et le paysage",
+    12: "Le miracle, le pelerinage et la religion",
+    13: "Le monde medical et la sante",
+    14: "Le pelerinage, la maladie et le voyage",
+    15: "L'insurrection et la revolution",
+    16: "Le quartier, la rue et la ville",
+    17: "Le desir, le corps et les relations amoureuses",
+    18: "Le pouvoir politique et les affaires publiques",
+    19: "Le travail, le peuple et le monde ouvrier",
+    20: "La bourse, la finance et les affaires",
+    21: "L'argent du quotidien",
+    22: "Les conversations et les scenes domestiques",
+    23: "Le monde artistique et la peinture",
+    24: "La mine, les ouvriers et la greve",
+    25: "Le magasin, la vente et les clientes",
+    26: "La guerre, les soldats et l'armee",
+    27: "Le pouvoir religieux",
+    28: "Les liens familiaux, l'ecriture et la justice",
+    29: "La terre, les animaux et le monde paysan"
+}
+
+df["nom_cluster"] = df["cluster"].map(noms_clusters_kmeans)
+\end{lstlisting}
+
+Les intitulés obtenus montrent que les clusters couvrent des dimensions proches de celles observées avec le NMF. On retrouve par exemple des ensembles liés au travail, à la mine, à la finance, à la religion, à la famille, au monde domestique, à la guerre ou encore aux espaces urbains.
+
+Cependant, les clusters K-means ne doivent pas être interprétés comme des catégories fixes ou naturelles. Ils résultent d'un regroupement algorithmique fondé sur la proximité lexicale des segments. Leur nomination repose donc sur un choix interprétatif, à partir des mots les plus représentatifs et des extraits textuels associés.
+
+\subsubsection{Regroupement hiérarchique des clusters}
+
+Afin de mieux comprendre les relations entre les 29 clusters, une classification ascendante hiérarchique a été appliquée aux centres des clusters. Cette étape permet de regrouper les clusters proches entre eux et d'identifier des familles thématiques plus larges. Elle complète donc le K-means en donnant une lecture plus synthétique de la structure thématique du corpus.
+
+\begin{lstlisting}[language=Python, caption={Classification hiérarchique sur les centres des clusters}]
+Z = linkage(centres, method="ward")
+
+dendrogram(
+    Z,
+    labels=[f"Cluster {i+1}" for i in range(kmeans.n_clusters)],
+    orientation="right",
+    color_threshold=0.40
+)
+
+plt.axvline(x=0.40, color="red", linestyle="--")
+
+plt.title("CAH sur les clusters K-means")
+plt.xlabel("Distance")
+plt.show()
+\end{lstlisting}
+
+La méthode de Ward a été utilisée pour construire la hiérarchie. Elle cherche à regrouper les clusters en minimisant l'augmentation de la variance interne à chaque fusion. Le dendrogramme permet ensuite de visualiser les proximités entre clusters. Le seuil de distance fixé à 0,40 sert à découper l'arbre en grandes familles de motifs.
+
+Cette étape est utile, car 29 clusters peuvent être difficiles à interpréter globalement. Le regroupement hiérarchique permet de passer d'une lecture détaillée, cluster par cluster, à une lecture plus générale, organisée autour de grandes familles thématiques.
+
+\subsubsection{Création des grandes familles de motifs}
+
+À partir du dendrogramme, les clusters ont été regroupés en cinq grandes familles de motifs. Cette opération permet de simplifier l'analyse et de faire apparaître les grandes zones thématiques du corpus.
+
+\begin{lstlisting}[language=Python, caption={Création des groupes CAH à partir des clusters K-means}]
+groupes_cah = fcluster(Z, t=0.40, criterion="distance")
+
+df_groupes = pd.DataFrame({
+    "cluster": range(1, kmeans.n_clusters + 1),
+    "groupe_cah": groupes_cah
+})
+
+df_groupes["nom_cluster"] = df_groupes["cluster"].map(
+    noms_clusters_kmeans
+)
+\end{lstlisting}
+
+Les groupes obtenus ont ensuite été nommés manuellement, en fonction des clusters qu'ils rassemblent.
+
+\begin{lstlisting}[language=Python, caption={Nomination des grandes familles de motifs}]
+noms_groupes_cah = {
+    1: "Religion locale et autorite clericale",
+    2: "Guerre, insurrection et conflit politique",
+    3: "Institutions, croyances et encadrement social",
+    4: "Argent, dettes et circulation financiere",
+    5: "Vie quotidienne, espaces sociaux et experiences individuelles"
+}
+
+df_groupes["nom_groupe_cah"] = df_groupes["groupe_cah"].map(
+    noms_groupes_cah
+)
+\end{lstlisting}
+
+Ces grandes familles permettent d'obtenir une lecture plus synthétique des résultats. La première famille regroupe les thèmes liés à la religion locale et à l'autorité cléricale. La deuxième rassemble les motifs de guerre, d'insurrection et de conflit politique. La troisième renvoie aux institutions, aux croyances et aux formes d'encadrement social. La quatrième concerne l'argent, les dettes et les circulations financières. Enfin, la cinquième regroupe les motifs les plus liés à la vie quotidienne, aux espaces sociaux et aux expériences individuelles.
+
+Cette structuration est particulièrement utile pour l'analyse littéraire, car elle permet de passer d'une liste de clusters nombreux à une organisation thématique plus lisible. Elle montre aussi que les motifs extraits par K-means ne sont pas isolés, mais peuvent être regroupés en ensembles plus larges correspondant à des dimensions importantes de l'œuvre de Zola.
+
+\subsubsection{Attribution des grandes familles aux segments}
+
+Une fois les groupes hiérarchiques définis, chaque segment du corpus a reçu une étiquette correspondant à la grande famille de motifs associée à son cluster. Cette opération permet d'analyser non seulement les clusters détaillés, mais aussi les grandes catégories thématiques dans lesquelles ils s'inscrivent.
+
+\begin{lstlisting}[language=Python, caption={Attribution des groupes CAH aux segments du corpus}]
+cluster_vers_groupe = dict(
+    zip(df_groupes["cluster"], df_groupes["groupe_cah"])
+)
+
+df["groupe_cah"] = df["cluster"].map(cluster_vers_groupe)
+df["nom_groupe_cah"] = df["groupe_cah"].map(noms_groupes_cah)
+\end{lstlisting}
+
+Cette étape permet de relier chaque paquet de phrases à deux niveaux d'analyse. Le premier niveau est le cluster K-means, qui fournit une catégorie thématique fine. Le second niveau est le groupe CAH, qui fournit une catégorie plus générale. Cette double échelle d'interprétation est utile car elle permet d'adapter le niveau de détail selon les besoins de l'analyse : on peut étudier les motifs précis, ou bien observer les grandes tendances du corpus.
+
+\subsubsection{Analyse de la répartition des clusters}
+
+Après la nomination des clusters et des grandes familles, plusieurs visualisations ont été produites afin d'étudier leur répartition dans le corpus. La première consiste à compter le nombre de segments associés à chaque grande famille de motifs.
+
+\begin{lstlisting}[language=Python, caption={Nombre de segments par grande famille de motifs}]
+counts = df["nom_groupe_cah"].value_counts().sort_values()
+
+plt.figure(figsize=(10, 6))
+counts.plot(kind="barh")
+
+plt.title("Nombre de segments par grande famille de motifs")
+plt.xlabel("Nombre de segments")
+plt.ylabel("Groupe CAH")
+plt.show()
+\end{lstlisting}
+
+Cette visualisation permet d'identifier les grandes familles les plus représentées dans l'ensemble du corpus. Elle donne une lecture globale de l'organisation thématique des segments. Une famille très représentée indique qu'un ensemble de motifs revient fréquemment dans les romans, tandis qu'une famille moins présente peut correspondre à un thème plus spécifique, associé à certains romans ou à certaines situations narratives.
+
+Une seconde visualisation a été produite à l'échelle des clusters détaillés.
+
+
+Cette représentation permet de voir quels clusters sont les plus fréquents dans le corpus. Elle est plus précise que l'analyse par grandes familles, car elle distingue les motifs thématiques particuliers. Elle permet par exemple d'observer séparément les clusters associés à la mine, à la finance, à la religion, à la famille ou au monde domestique.
+
+\subsubsection{Distribution des clusters par œuvre}
+
+Afin d'observer la présence des clusters dans chaque roman, une table croisée a été construite entre les fichiers du corpus et les clusters thématiques. La normalisation par ligne permet d'obtenir, pour chaque œuvre, la proportion de segments associés à chaque cluster.
+
+
+
+Cette analyse est importante, car elle permet de relier les clusters aux romans. Certains clusters peuvent être très transversaux et apparaître dans de nombreuses œuvres, tandis que d'autres peuvent être fortement associés à un roman précis. Par exemple, un cluster lié à la mine peut être particulièrement représenté dans \textit{Germinal}, tandis qu'un cluster lié à la finance peut être plus présent dans \textit{L'Argent}. De la même manière, les clusters associés au commerce peuvent être importants dans \textit{Au Bonheur des dames}, et ceux liés à la guerre dans \textit{La Débâcle}.
+
+Une analyse similaire a été réalisée au niveau des grandes familles de motifs.
+
+
+
+Cette seconde visualisation offre une lecture plus synthétique. Elle permet de comparer les romans selon les grandes familles de motifs qui les structurent. Cette approche est particulièrement utile pour repérer des oppositions ou des proximités entre les œuvres : certains romans peuvent être dominés par des motifs de vie quotidienne, tandis que d'autres accordent plus de place aux institutions, à la religion, à la guerre ou aux conflits sociaux.
+
+\subsubsection{Projection UMAP des segments}
+
+Une projection UMAP a enfin été utilisée pour représenter les segments dans un espace en deux dimensions. Cette méthode de réduction de dimensionnalité permet de visualiser la manière dont les segments se répartissent selon leur proximité lexicale. Les points sont colorés selon leur grande famille de motifs.
+
+\begin{lstlisting}[language=Python, caption={Projection UMAP des segments par grande famille de motifs}]
+reducer = umap.UMAP(n_components=2, random_state=42)
+X_umap = reducer.fit_transform(X)
+
+plt.figure(figsize=(10, 7))
+
+plt.scatter(
+    X_umap[:, 0],
+    X_umap[:, 1],
+    c=df["groupe_cah"],
+    cmap="tab10",
+    s=10,
+    alpha=0.7
+)
+
+plt.title("Projection UMAP des segments par grande famille de motifs")
+plt.xlabel("UMAP 1")
+plt.ylabel("UMAP 2")
+plt.colorbar(label="Groupe CAH")
+plt.show()
+\end{lstlisting}
+
+Cette visualisation ne doit pas être interprétée comme une preuve définitive de séparation entre les groupes, mais comme un outil exploratoire. Elle permet d'observer si les segments associés à une même famille de motifs tendent à se rapprocher dans l'espace vectoriel. Si certaines zones apparaissent relativement regroupées, cela peut indiquer que les familles thématiques correspondent à des structures lexicales cohérentes. À l'inverse, des zones plus mélangées peuvent signaler des motifs plus transversaux ou des segments hybrides.

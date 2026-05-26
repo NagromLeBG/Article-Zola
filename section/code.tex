@@ -1,0 +1,121 @@
+% Fichier annexe contenant les blocs de code de l'analyse.
+% Ce fichier peut être inclus dans l'article principal avec :
+% \input{article_zola_code}
+
+\section{Annexe technique : code de l'analyse}
+
+Cette annexe regroupe les principaux blocs de code utilisés pour préparer le corpus, lemmatiser les textes et appliquer les méthodes de modélisation thématique. Elle permet de conserver le corps de l'article principal plus lisible.
+
+\subsection{Segmentation du corpus}
+
+\begin{lstlisting}[language=Python, caption={Code de segmentation du texte en paquets de phrases}]
+def segmenter_en_paquets(texte, taille_paquet=40):
+    # Segmente le texte en paquets de phrases
+    phrases = texte.splitlines()
+    phrases = [p.strip() for p in phrases if p.strip()]
+    paquets = []
+
+    for i in range(0, len(phrases), taille_paquet):
+        paquet = " ".join(phrases[i:i+taille_paquet])
+        paquets.append(paquet)
+    return paquets
+
+rows = []
+
+for _, row in df.iterrows():
+    # Iteration sur chaque ligne du DataFrame
+    paquets = segmenter_en_paquets(row["texte_brut"])
+
+    for idx, paquet in enumerate(paquets):
+        rows.append({
+            "nom_fichier": row["nom_fichier"],
+            "id_paquet": idx,
+            "phrases_paquet": paquet
+        })
+
+df_phrases = pd.DataFrame(rows)
+\end{lstlisting}
+
+\subsection{Lemmatisation et filtrage lexical}
+
+\begin{lstlisting}[language=Python, caption={Importation du modèle français de spaCy}]
+nlp = spacy.load("fr_core_news_lg", disable=["ner", "parser"])
+# Chargement du modele de langue francaise de spaCy.
+# Les composants de reconnaissance des entites nommees et d'analyse
+# syntaxique sont desactives afin d'accelerer le traitement.
+
+nlp.max_length = 2_000_000
+# Augmentation de la longueur maximale des textes traites par spaCy.
+# Cette valeur est ajustable selon la taille des textes et la memoire
+# disponible sur la machine.
+\end{lstlisting}
+\newpage
+\begin{lstlisting}[language=Python, caption={Liste de stop words personnalisée}]
+stop_word = {
+    "je", "tu", "il", "elle", "ils", "elles", "nous", "vous",
+    "me", "te", "se", "moi", "toi", "eux", "leur", "leurs",
+    "ses", "mon", "ton", "son", "notre", "votre", "cette",
+    "\u00e7a", "si", "m\u00eame", "o\u00f9", "dont", "sans",
+    "quand", "bien", "l\u00e0", "sous", "\u00eatre", "avoir",
+    "faire", "dire", "aller", "voir", "pouvoir", "demander",
+    "prendre", "mettre", "parler", "devoir", "trouver", "donner",
+    "comprendre", "savoir", "vouloir", "venir", "est", "ai",
+    "as", "avez", "ont", "avaient", "\u00e9taient", "deux",
+    "cent", "cents", "cinq", "dix", "vingt", "mille",
+    "mme", "madame", "monsieur", "m", "mr", "mlle",
+    "nana", "gervaise", "louis", "lazare", "etienne", "claude",
+    "suzanne", "mouret", "rougon", "macquart", "saccard",
+    "lacroix", "renn\u00e9e", "silv\u00e8re", "revert\u00e9gat",
+    "mahoudeau", "ren\u00e9e", "xiii", "silv\u00e8re", "miette",
+    "boccanera", "deberl", "daigremont", "lorilleu", "maheude",
+    "cas", "f\u00e9licit\u00e9", "coupeau", "granou", "granoux",
+    "gagni\u00e8re", "gagniere"
+}
+\end{lstlisting}
+    
+
+\begin{lstlisting}[language=Python, caption={Fonction de lemmatisation avec exclusion de mots spécifiques}]
+
+def nettoyer_texte(texte):
+    doc = nlp(texte)
+    tokens = []
+
+    for token in doc:
+        lemme = token.lemma_.lower()
+
+        if (
+            not token.is_stop
+            and not token.is_punct
+            and not token.like_num
+            and not token.is_space
+            and token.pos_ in {"NOUN", "ADJ"}
+            and len(lemme) > 2
+            and lemme not in stop_word
+        ):
+            tokens.append(lemme)
+
+    return " ".join(tokens)
+\end{lstlisting}
+
+\subsection{Vectorisation TF-IDF}
+Le vectoriseur utilisé est défini de la manière suivante :
+
+\begin{lstlisting}[language=Python, caption={Création de la matrice terme-document avec TF-IDF}]
+vectorizer = TfidfVectorizer(
+    min_df=3,
+    max_df=0.8
+)
+X = vectorizer.fit_transform(df["phrases_lemm"])
+\end{lstlisting}
+
+\subsection{Modélisation par NMF}
+
+% Coller ici les blocs lstlisting liés à l'entraînement et à l'interprétation de la NMF.
+
+\subsection{Clustering par K-means}
+
+% Coller ici les blocs lstlisting liés au clustering K-means et à la CAH.
+
+\subsection{Visualisations}
+
+% Coller ici les blocs lstlisting liés aux graphiques, distributions et projections UMAP.
