@@ -181,8 +181,21 @@ kmeans = KMeans(
     random_state=42,
     n_init=10
 )
-
 df["cluster"] = kmeans.fit_predict(X) + 1
+\end{lstlisting}
+
+\subsection{Affichage resultats}
+\begin{lstlisting}[language=Python, caption={Affichage des mots les plus importants par topic}]
+def afficher_topics(model, feature_names, n_top_words=10):
+    for topic_idx, topic in enumerate(model.components_):
+        top_words = [
+            feature_names[i]
+            for i in topic.argsort()[:-n_top_words - 1:-1]
+        ]
+        print(f"Topic {topic_idx+1} : {' | '.join(top_words)}")
+
+feature_names = vectorizer.get_feature_names_out()
+afficher_topics(nmf, feature_names)
 \end{lstlisting}
 
 \subsection{Visualisations}

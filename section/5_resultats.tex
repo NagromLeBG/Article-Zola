@@ -5,22 +5,162 @@
 
 Une fois le modèle entraîné, les mots les plus importants de chaque topic ont été extraits afin de faciliter leur interprétation. Cette étape est essentielle, car le NMF ne produit pas directement des noms de thèmes : elle produit des groupes de mots. L'attribution d'un nom à chaque topic repose donc sur une analyse qualitative des termes les plus représentatifs.
 
-\begin{lstlisting}[language=Python, caption={Affichage des mots les plus importants par topic}]
-def afficher_topics(model, feature_names, n_top_words=10):
-    for topic_idx, topic in enumerate(model.components_):
-        top_words = [
-            feature_names[i]
-            for i in topic.argsort()[:-n_top_words - 1:-1]
-        ]
-        print(f"Topic {topic_idx+1} : {' | '.join(top_words)}")
+Le tableau suivant présente les dix mots les plus caractéristiques de chaque topic obtenu avec la NMF. Ces mots servent de base à l'interprétation qualitative des thèmes extraits par le modèle.
 
-feature_names = vectorizer.get_feature_names_out()
-afficher_topics(nmf, feature_names)
-\end{lstlisting}
+\begin{longtable}{p{1.8cm}p{11.5cm}}
+\caption{Mots caractéristiques des topics obtenus avec la NMF} \\
+\toprule
+\textbf{Topic} & \textbf{Mots caractéristiques} \\
+\midrule
+\endfirsthead
+
+\toprule
+\textbf{Topic} & \textbf{Mots caractéristiques} \\
+\midrule
+\endhead
+
+Topic 1 & femme, mari, chose, bon, homme, cher, ménage, histoire, vrai, plaisir \\
+
+Topic 2 & travail, peuple, vie, usine, bonheur, justice, ouvrier, œuvre, humanité, terre \\
+
+Topic 3 & arbre, soleil, herbe, eau, ciel, jardin, ombre, terre, feuille, branche \\
+
+Topic 4 & million, bourse, cours, action, universelle, banque, affaire, agent, hausse, titre \\
+
+Topic 5 & abbé, prêtre, curé, église, jardin, trouche, soutane, sous-préfecture, évêque \\
+
+Topic 6 & table, verre, vin, pain, café, eau, maman, assiette, bon, petit \\
+
+Topic 7 & main, œil, mort, bras, sang, tête, corps, face, voix, lèvre \\
+
+Topic 8 & franc, argent, billet, somme, mois, sou, chiffre, pièce, fortune, poche \\
+
+Topic 9 & monsieur, dame, porte, vou, bon, air, voix, tante, main, mot \\
+
+Topic 10 & rue, maison, quartier, trottoir, boutique, boulevard, ville, place, voiture, chaussée \\
+
+Topic 11 & train, gare, heure, machine, chef, voiture, voie, wagon, express, portière \\
+
+Topic 12 & grotte, saint, sœur, malade, miracle, foule, cierge, foi, prêtre, pèlerin \\
+
+Topic 13 & frère, sœur, modèle, petit, écriture, heure, pauvre, fine, lettre, témoin \\
+
+Topic 14 & cardinal, pape, éminence, livre, palais, église, prêtre, don, prélat, romain \\
+
+Topic 15 & école, instituteur, élève, vérité, église, classe, modèle, primaire, enseignement, juif \\
+
+Topic 16 & père, fils, vieux, famille, fille, ferme, terre, paysan, maison, mort \\
+
+Topic 17 & fosse, mineur, ouvrier, camarade, puits, coron, berline, galerie, porion, grève \\
+
+Topic 18 & prussien, soldat, armée, général, route, cheval, corps, canon, capitaine, homme \\
+
+Topic 19 & jeune, fille, homme, oncle, fine, nièce, garçon, mariage, tante, amant \\
+
+Topic 20 & vendeur, rayon, magasin, comptoir, soie, dame, client, vente, bonheur, confection \\
+
+Topic 21 & docteur, médecin, malade, maladie, visite, heure, jour, miracle, cher, jambe \\
+
+Topic 22 & tableau, toile, peintre, peinture, œuvre, atelier, art, artiste, salle, étude \\
+
+Topic 23 & chambre, lit, porte, heure, fenêtre, nuit, escalier, pièce, maison, meuble \\
+
+Topic 24 & enfant, mère, petit, fille, maman, pauvre, nourrice, bon, larme, œil \\
+
+Topic 25 & bel, halle, charcuterie, quenu, boutique, gras, charcutier, marchand, normande, blanc \\
+
+Topic 26 & salon, comte, dame, comtesse, satin, marquis, blanc, rose, femme, petit \\
+
+Topic 27 & empereur, ministre, député, préfet, président, colonel, politique, affaire, lettre, ami \\
+
+Topic 28 & amour, cœur, vie, tendresse, jour, pensée, bonheur, amant, heure, joie \\
+
+Topic 29 & insurgé, barricade, national, ville, fusil, garde, républicain, ouvrier, place, peuple \\
+
+\bottomrule
+\end{longtable}
 
 Chaque topic a ensuite été nommé à partir des mots dominants et de l'observation des segments les plus fortement associés à ce topic. Cette double vérification permet de limiter les erreurs d'interprétation. En effet, certains mots peuvent sembler cohérents isolément, mais prendre un sens différent lorsqu'ils sont replacés dans les extraits du corpus.
 
 Les topics obtenus couvrent plusieurs dimensions importantes de l'œuvre de Zola. Certains renvoient à des espaces sociaux précis, comme le magasin, la mine, la bourse, le quartier ou le monde ferroviaire. D'autres correspondent à des thèmes plus transversaux, comme la famille, le désir, la maladie, la religion, la pauvreté ou la mort. Cette diversité montre que le NMF permet de faire apparaître à la fois des thèmes sociaux, des motifs narratifs et des univers propres à certains romans.
+
+\subsubsection{Nommer les topics}
+
+Les topics ont ensuite été nommés manuellement à partir des mots les plus représentatifs et des segments les plus fortement associés. Cette étape constitue une part qualitative importante de l'analyse. Elle permet de transformer les résultats numériques du modèle en catégories interprétables.
+\begin{longtable}{p{2cm}p{11cm}}
+\caption{Noms attribués aux topics obtenus avec la NMF} \\
+\toprule
+\textbf{Topic} & \textbf{Nom attribué} \\
+\midrule
+\endfirsthead
+
+\toprule
+\textbf{Topic} & \textbf{Nom attribué} \\
+\midrule
+\endhead
+
+Topic 1 & Les relations conjugales et la vie domestique \\
+
+Topic 2 & Le travail, le peuple et la justice sociale \\
+
+Topic 3 & La nature et le paysage \\
+
+Topic 4 & La bourse, la finance et les affaires \\
+
+Topic 5 & Le clergé et la paroisse \\
+
+Topic 6 & La table et les repas \\
+
+Topic 7 & Le corps, la souffrance et la mort \\
+
+Topic 8 & L'argent et la fortune \\
+
+Topic 9 & Les conversations et les scènes domestiques \\
+
+Topic 10 & Le quartier et la ville \\
+
+Topic 11 & Le monde ferroviaire \\
+
+Topic 12 & Le miracle, le pèlerinage et la religion \\
+
+Topic 13 & Les liens familiaux, l'écriture et les proches \\
+
+Topic 14 & Le pouvoir religieux \\
+
+Topic 15 & L'école et l'instruction \\
+
+Topic 16 & La famille, la terre et le monde paysan \\
+
+Topic 17 & Le monde ouvrier et la mine \\
+
+Topic 18 & La guerre, les soldats et l'armée \\
+
+Topic 19 & Le désir, le mariage et les relations amoureuses \\
+
+Topic 20 & Le magasin, la vente et les clientes \\
+
+Topic 21 & Le monde médical et la santé \\
+
+Topic 22 & Le monde artistique et la peinture \\
+
+Topic 23 & La chambre, le lit et l'espace intime \\
+
+Topic 24 & L'enfance, la maternité et la pauvreté \\
+
+Topic 25 & Le commerce alimentaire et les halles \\
+
+Topic 26 & Le salon, l'aristocratie et les scènes mondaines \\
+
+Topic 27 & Le pouvoir politique et les affaires publiques \\
+
+Topic 28 & L'amour, le bonheur et les sentiments \\
+
+Topic 29 & L'insurrection et la révolution \\
+
+\bottomrule
+\end{longtable}
+
+Cette étape montre que l’analyse ne repose pas uniquement sur une extraction automatique. Le modèle propose des regroupements de mots, mais leur interprétation dépend d’un travail humain. Les noms attribués aux topics doivent donc être compris comme des catégories d’analyse construites à partir des résultats du modèle, et non comme des vérités objectives produites automatiquement par l’algorithme.
 
 \subsubsection{Attribution d'un topic dominant à chaque segment}
 
@@ -36,48 +176,6 @@ df["poids_topic"] = W_norm.max(axis=1)
 La colonne \texttt{topic\_dominant} indique le topic le plus représenté dans chaque paquet de phrases. La colonne \texttt{poids\_topic} mesure l'intensité de cette association. Plus cette valeur est élevée, plus le segment est clairement associé à un topic spécifique. À l'inverse, un poids faible peut indiquer un segment plus mixte, contenant plusieurs thèmes ou ne correspondant fortement à aucun topic.
 
 Cette étape permet de passer d'une simple liste de topics à une analyse plus structurée de leur répartition dans le corpus. Elle rend possible l'étude du nombre de segments associés à chaque topic, du poids moyen des topics dans l'ensemble du corpus et de la présence des thèmes selon les romans. Elle permettrait également, dans un second temps, d'appliquer un détecteur de motifs sur les segments associés à chaque topic afin d'identifier les motifs narratifs les plus caractéristiques de chaque thème.
-
-\subsubsection{Nommer les topics}
-
-Les topics ont ensuite été nommés manuellement à partir des mots les plus représentatifs et des segments les plus fortement associés. Cette étape constitue une part qualitative importante de l'analyse. Elle permet de transformer les résultats numériques du modèle en catégories interprétables.
-
-\begin{lstlisting}[language=Python, caption={Attribution manuelle des noms de topics}]
-noms_topics_nmf = {
-    1: "Les relations conjugales et la vie domestique",
-    2: "Le travail, le peuple et la justice sociale",
-    3: "La nature et le paysage",
-    4: "La bourse, la finance et les affaires",
-    5: "Le clerge et la paroisse",
-    6: "La table et les repas",
-    7: "Le corps, la souffrance et la mort",
-    8: "L'argent et la fortune",
-    9: "Les conversations et les scenes domestiques",
-    10: "Le quartier et la ville",
-    11: "Le monde ferroviaire",
-    12: "Le miracle, le pelerinage et la religion",
-    13: "Les liens familiaux, l'ecriture et les proches",
-    14: "Le pouvoir religieux",
-    15: "L'ecole et l'instruction",
-    16: "La famille, la terre et le monde paysan",
-    17: "Le monde ouvrier et la mine",
-    18: "La guerre, les soldats et l'armee",
-    19: "Le desir, le mariage et les relations amoureuses",
-    20: "Le magasin, la vente et les clientes",
-    21: "Le monde medical et la sante",
-    22: "Le monde artistique et la peinture",
-    23: "La chambre, le lit et l'espace intime",
-    24: "L'enfance, la maternite et la pauvrete",
-    25: "Le commerce alimentaire et les halles",
-    26: "Le salon, l'aristocratie et les scenes mondaines",
-    27: "Le pouvoir politique et les affaires publiques",
-    28: "L'amour, le bonheur et les sentiments",
-    29: "L'insurrection et la revolution"
-}
-\end{lstlisting}
-
-
-
-Cette étape montre que l’analyse ne repose pas uniquement sur une extraction automatique. Le modèle propose des regroupements de mots, mais leur interprétation dépend d’un travail humain. Les noms attribués aux topics doivent donc être compris comme des catégories d’analyse construites à partir des résultats du modèle, et non comme des vérités objectives produites automatiquement par l’algorithme.
 
 \subsection{Clusters obtenus avec K-means}
 
