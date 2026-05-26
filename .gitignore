@@ -1,10 +1,16 @@
-# Fichiers de données
-article_Zola.aux
-article_Zola.fdb_latexmk
-article_Zola.fls
-article_Zola.log
-article_Zola.out
-article_Zola.synctex.gz
-
-
+# macOS
 .DS_Store
+
+# LaTeX build files
+*.aux
+*.fdb_latexmk
+*.fls
+*.log
+*.out
+*.synctex.gz
+*.toc
+*.lof
+*.lot
+*.bbl
+*.blg
+
