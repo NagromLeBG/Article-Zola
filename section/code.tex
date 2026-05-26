@@ -108,13 +108,82 @@ vectorizer = TfidfVectorizer(
 X = vectorizer.fit_transform(df["phrases_lemm"])
 \end{lstlisting}
 
+\section{Trouver un K optimal pour la modélisation thématique}
+
+\begin{lstlisting}[language=Python, caption={Recherche du nombre de topics par la méthode du coude}]
+errors = []
+k_values = range(20, 40)
+
+for k in k_values:
+    nmf = NMF(
+        n_components=k,
+        random_state=42,
+        init="nndsvda",
+        max_iter=500
+    )
+
+    nmf.fit(X)
+    errors.append(nmf.reconstruction_err_)
+\end{lstlisting}
+
 \subsection{Modélisation par NMF}
 
-% Coller ici les blocs lstlisting liés à l'entraînement et à l'interprétation de la NMF.
+Le modèle final est défini de la manière suivante :
+
+\begin{lstlisting}[language=Python, caption={Entraînement du modèle NMF final}]
+nmf = NMF(
+    n_components=29,
+    random_state=42,
+    init="nndsvda",
+    solver="cd",
+    max_iter=1000
+)
+
+W = nmf.fit_transform(X)
+H = nmf.components_
+\end{lstlisting}
 
 \subsection{Clustering par K-means}
 
-% Coller ici les blocs lstlisting liés au clustering K-means et à la CAH.
+\begin{lstlisting}[language=Python, caption={Évaluation du nombre de clusters par score de silhouette}]
+scores = []
+
+for k in range(2, 41):
+    model = KMeans(
+        n_clusters=k,
+        random_state=42,
+        n_init=10
+    )
+    labels = model.fit_predict(X)
+    score = silhouette_score(X, labels)
+    scores.append((k, score))
+
+scores_df = pd.DataFrame(scores, columns=["k", "silhouette"])
+\end{lstlisting}
+
+
+\begin{lstlisting}[language=Python, caption={Visualisation du score de silhouette selon le nombre de clusters}]
+plt.figure(figsize=(10, 6))
+plt.xticks(range(2, 41))
+
+plt.plot(scores_df["k"], scores_df["silhouette"], marker="o")
+
+plt.xlabel("Nombre de clusters k")
+plt.ylabel("Score de silhouette")
+plt.title("Score de silhouette selon le nombre de clusters")
+
+plt.show()
+\end{lstlisting}
+
+\begin{lstlisting}[language=Python, caption={Entraînement du modèle K-means final}]
+kmeans = KMeans(
+    n_clusters=29,
+    random_state=42,
+    n_init=10
+)
+
+df["cluster"] = kmeans.fit_predict(X) + 1
+\end{lstlisting}
 
 \subsection{Visualisations}
 

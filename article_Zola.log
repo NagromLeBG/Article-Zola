@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026) (preloaded format=pdflatex 2026.5.20)  26 MAY 2026 16:53
+This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026) (preloaded format=pdflatex 2026.5.20)  26 MAY 2026 18:07
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -389,33 +389,45 @@ Overfull \hbox (5.0508pt too wide) in alignment at lines 81--116
  []
 
 
-ignored: Infinite glue shrinkage found in box being split [5] [6] [7] [8] [9]) (./section/4_modelisation.tex [10] [11] (/usr/local/texlive/2026/texmf-dist/tex/latex/listings/lstlang1.sty
+ignored: Infinite glue shrinkage found in box being split [5] [6] [7] [8] [9]) (./section/4_modelisation.tex [10] [11]
+<article zola/figure/methode_du_coude_nmf.png, id=283, 505.89pt x 340.3917pt>
+File: article zola/figure/methode_du_coude_nmf.png Graphic file (type png)
+<use article zola/figure/methode_du_coude_nmf.png>
+Package pdftex.def Info: article zola/figure/methode_du_coude_nmf.png  used on input line 30.
+(pdftex.def)             Requested size: 276.00105pt x 185.70975pt.
+ [12 <./article zola/figure/methode_du_coude_nmf.png>] [13] [14]
+<article zola/figure/silhouette.png, id=305, 623.6901pt x 395.3169pt>
+File: article zola/figure/silhouette.png Graphic file (type png)
+<use article zola/figure/silhouette.png>
+Package pdftex.def Info: article zola/figure/silhouette.png  used on input line 85.
+(pdftex.def)             Requested size: 276.00105pt x 174.93524pt.
+ [15 <./article zola/figure/silhouette.png>]) (./section/5_resultats.tex [16] (/usr/local/texlive/2026/texmf-dist/tex/latex/listings/lstlang1.sty
 File: lstlang1.sty 2025/11/14 1.11b listings language file
 )
-Package hyperref Info: bookmark level for unknown lstlisting defaults to 0 on input line 30.
+Package hyperref Info: bookmark level for unknown lstlisting defaults to 0 on input line 8.
 LaTeX Font Info:    Font shape `T1/cmtt/bx/n' in size <8> not available
-(Font)              Font shape `T1/cmtt/m/n' tried instead on input line 32.
- [12] [13] [14] [15] [16]) (./section/5_resultats.tex [17] [18] [19] [20] [21] [22] [23]) (./section/6_comparaison.tex [24]) (./section/7_conclusion.tex [25]) (./section/code.tex [26] [27] [28]) [29] (./article_Zola.aux)
+(Font)              Font shape `T1/cmtt/m/n' tried instead on input line 9.
+ [17] [18] [19] [20] [21] [22] [23]) (./section/6_comparaison.tex [24]) (./section/7_conclusion.tex) (./section/code.tex [25] [26] [27] [28]) [29] (./article_Zola.aux)
  ***********
 LaTeX2e <2025-11-01>
 L3 programming layer <2026-01-19>
  ***********
 Package rerunfilecheck Info: File `article_Zola.out' has not changed.
-(rerunfilecheck)             Checksum: 584D91C1F6641B695B570C279723A95C;10620.
+(rerunfilecheck)             Checksum: BD7031CC533D62FEB60B9AB6FFECAB6A;10952.
  ) 
 Here is how much of TeX's memory you used:
- 13642 strings out of 467525
- 211898 string characters out of 5418982
- 1056067 words of memory out of 5000000
- 41979 multiletter control sequences out of 15000+600000
+ 13661 strings out of 467525
+ 212614 string characters out of 5418982
+ 1057386 words of memory out of 5000000
+ 42000 multiletter control sequences out of 15000+600000
  641131 words of font info for 65 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  75i,8n,79p,1071b,2040s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/local/texlive/2026/texmf-dist/fonts/type1/public/cm-super/sfbx1000.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/cm-super/sfbx1200.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/cm-super/sfbx1440.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/cm-super/sfcc1000.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/cm-super/sfit0800.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/cm-super/sfrm0500.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/cm-super/sfrm0700.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/cm-super/sfrm0800.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/cm-super/sfrm1000.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/cm-super/sfrm1200.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/cm-super/sfrm1728.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/cm-super/sfti0800.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/cm-super/sfti1000.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/cm-super/sftt0800.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/cm-super/sftt1000.pfb>
-Output written on article_Zola.pdf (29 pages, 443543 bytes).
+Output written on article_Zola.pdf (29 pages, 496618 bytes).
 PDF statistics:
- 829 PDF objects out of 1000 (max. 8388607)
- 760 compressed objects within 8 object streams
- 408 named destinations out of 1000 (max. 500000)
- 377 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 835 PDF objects out of 1000 (max. 8388607)
+ 762 compressed objects within 8 object streams
+ 406 named destinations out of 1000 (max. 500000)
+ 395 words of extra memory for PDF output out of 10000 (max. 10000000)
 

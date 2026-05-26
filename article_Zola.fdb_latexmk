@@ -1,5 +1,5 @@
 # Fdb version 4
-["pdflatex"] 1779807224.30463 "/Users/morganr/Article-Zola/article_Zola.tex" "article_Zola.pdf" "article_Zola" 1779807224.97851 0
+["pdflatex"] 1779811659.95362 "/Users/morganr/Article-Zola/article_Zola.tex" "article_Zola.pdf" "article_Zola" 1779811660.67237 0
   "/Users/morganr/Article-Zola/article_Zola.tex" 1779807161.76469 855 5b9e14c6ca1c90f86e55f0569e4bd836 ""
   "/usr/local/texlive/2026/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc" 1136849721 2971 def0b6c1f0b107b3b936def894055589 ""
   "/usr/local/texlive/2026/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
@@ -103,17 +103,19 @@
   "/usr/local/texlive/2026/texmf-var/fonts/map/pdftex/updmap/pdftex.map" 1779286388 5573038 b99aad5e4898a9034e953632f940512b ""
   "/usr/local/texlive/2026/texmf-var/web2c/pdftex/pdflatex.fmt" 1779286339 3636769 49d1eb62f82bfcffc70b1b1ffe5b55d6 ""
   "/usr/local/texlive/2026/texmf.cnf" 1774209515 577 648cd9f92f9c0eac486f4c71c85cfbbe ""
-  "article_Zola.aux" 1779807224.88905 11475 ee6f0f1325ed8ef9c5853fd5026a72e7 "pdflatex"
-  "article_Zola.out" 1779807224.88999 10620 584d91c1f6641b695b570c279723a95c "pdflatex"
+  "article zola/figure/methode_du_coude_nmf.png" 1779789252.84158 27181 e9aff982fb9f1c0008f8ca18480d3372 ""
+  "article zola/figure/silhouette.png" 1779810533.06417 40814 49d5ca730142021b7806755cb3ddec97 ""
+  "article_Zola.aux" 1779811660.58567 12090 8fd54cc620b16391518d0ff752fb19b2 "pdflatex"
+  "article_Zola.out" 1779811660.58665 10952 bd7031cc533d62feb60b9ab6ffecab6a "pdflatex"
   "article_Zola.tex" 1779807161.76469 855 5b9e14c6ca1c90f86e55f0569e4bd836 ""
   "section/1_introduction.tex" 1779806595.422 1835 b4fa996e092bd0e1d0690cff80ba757a ""
   "section/2_corpus.tex" 1779806595.42172 4215 f2c6bc3cbfb2640793adc16c77cbd40f ""
   "section/3_méthodologie.tex" 1779807004.69376 18189 2e02311e4fd3f3e285905f7707da91a4 ""
-  "section/4_modelisation.tex" 1779807006.70779 18118 23dbabe50622a3fe05bfcc29266d0327 ""
+  "section/4_modelisation.tex" 1779811658.9398 16694 6850ebf6a395fc2585a5f0a76c6f3365 ""
   "section/5_resultats.tex" 1779807006.70778 19333 9409dd142ae2bc5ac9d4df6f8f3fd41d ""
   "section/6_comparaison.tex" 1779807006.70781 1968 3e407813190df7343d6ed9193c1dc61a ""
   "section/7_conclusion.tex" 1779807006.70754 1594 e3bd1fa365219beb9d7e0e7bad62913a ""
-  "section/code.tex" 1779806031.39936 4389 1b70526fe15c0561d2b9e6090b8089a2 ""
+  "section/code.tex" 1779811046.68435 5973 bd7a5e6633bd742e93dcf28ee732ff1c ""
   (generated)
   "article_Zola.aux"
   "article_Zola.log"
