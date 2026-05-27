@@ -20,61 +20,33 @@ Le tableau suivant présente les dix mots les plus caractéristiques de chaque t
 \endhead
 
 Topic 1 & femme, mari, chose, bon, homme, cher, ménage, histoire, vrai, plaisir \\
-
 Topic 2 & travail, peuple, vie, usine, bonheur, justice, ouvrier, œuvre, humanité, terre \\
-
 Topic 3 & arbre, soleil, herbe, eau, ciel, jardin, ombre, terre, feuille, branche \\
-
 Topic 4 & million, bourse, cours, action, universelle, banque, affaire, agent, hausse, titre \\
-
 Topic 5 & abbé, prêtre, curé, église, jardin, trouche, soutane, sous-préfecture, évêque \\
-
 Topic 6 & table, verre, vin, pain, café, eau, maman, assiette, bon, petit \\
-
 Topic 7 & main, œil, mort, bras, sang, tête, corps, face, voix, lèvre \\
-
 Topic 8 & franc, argent, billet, somme, mois, sou, chiffre, pièce, fortune, poche \\
-
 Topic 9 & monsieur, dame, porte, vou, bon, air, voix, tante, main, mot \\
-
 Topic 10 & rue, maison, quartier, trottoir, boutique, boulevard, ville, place, voiture, chaussée \\
-
 Topic 11 & train, gare, heure, machine, chef, voiture, voie, wagon, express, portière \\
-
 Topic 12 & grotte, saint, sœur, malade, miracle, foule, cierge, foi, prêtre, pèlerin \\
-
 Topic 13 & frère, sœur, modèle, petit, écriture, heure, pauvre, fine, lettre, témoin \\
-
 Topic 14 & cardinal, pape, éminence, livre, palais, église, prêtre, don, prélat, romain \\
-
 Topic 15 & école, instituteur, élève, vérité, église, classe, modèle, primaire, enseignement, juif \\
-
 Topic 16 & père, fils, vieux, famille, fille, ferme, terre, paysan, maison, mort \\
-
 Topic 17 & fosse, mineur, ouvrier, camarade, puits, coron, berline, galerie, porion, grève \\
-
 Topic 18 & prussien, soldat, armée, général, route, cheval, corps, canon, capitaine, homme \\
-
 Topic 19 & jeune, fille, homme, oncle, fine, nièce, garçon, mariage, tante, amant \\
-
 Topic 20 & vendeur, rayon, magasin, comptoir, soie, dame, client, vente, bonheur, confection \\
-
 Topic 21 & docteur, médecin, malade, maladie, visite, heure, jour, miracle, cher, jambe \\
-
 Topic 22 & tableau, toile, peintre, peinture, œuvre, atelier, art, artiste, salle, étude \\
-
 Topic 23 & chambre, lit, porte, heure, fenêtre, nuit, escalier, pièce, maison, meuble \\
-
 Topic 24 & enfant, mère, petit, fille, maman, pauvre, nourrice, bon, larme, œil \\
-
 Topic 25 & bel, halle, charcuterie, quenu, boutique, gras, charcutier, marchand, normande, blanc \\
-
 Topic 26 & salon, comte, dame, comtesse, satin, marquis, blanc, rose, femme, petit \\
-
 Topic 27 & empereur, ministre, député, préfet, président, colonel, politique, affaire, lettre, ami \\
-
 Topic 28 & amour, cœur, vie, tendresse, jour, pensée, bonheur, amant, heure, joie \\
-
 Topic 29 & insurgé, barricade, national, ville, fusil, garde, républicain, ouvrier, place, peuple \\
 
 \bottomrule
@@ -100,61 +72,33 @@ Les topics ont ensuite été nommés manuellement à partir des mots les plus re
 \endhead
 
 Topic 1 & Les relations conjugales et la vie domestique \\
-
 Topic 2 & Le travail, le peuple et la justice sociale \\
-
 Topic 3 & La nature et le paysage \\
-
 Topic 4 & La bourse, la finance et les affaires \\
-
 Topic 5 & Le clergé et la paroisse \\
-
 Topic 6 & La table et les repas \\
-
 Topic 7 & Le corps, la souffrance et la mort \\
-
 Topic 8 & L'argent et la fortune \\
-
 Topic 9 & Les conversations et les scènes domestiques \\
-
 Topic 10 & Le quartier et la ville \\
-
 Topic 11 & Le monde ferroviaire \\
-
 Topic 12 & Le miracle, le pèlerinage et la religion \\
-
 Topic 13 & Les liens familiaux, l'écriture et les proches \\
-
 Topic 14 & Le pouvoir religieux \\
-
 Topic 15 & L'école et l'instruction \\
-
 Topic 16 & La famille, la terre et le monde paysan \\
-
 Topic 17 & Le monde ouvrier et la mine \\
-
 Topic 18 & La guerre, les soldats et l'armée \\
-
 Topic 19 & Le désir, le mariage et les relations amoureuses \\
-
 Topic 20 & Le magasin, la vente et les clientes \\
-
 Topic 21 & Le monde médical et la santé \\
-
 Topic 22 & Le monde artistique et la peinture \\
-
 Topic 23 & La chambre, le lit et l'espace intime \\
-
 Topic 24 & L'enfance, la maternité et la pauvreté \\
-
 Topic 25 & Le commerce alimentaire et les halles \\
-
 Topic 26 & Le salon, l'aristocratie et les scènes mondaines \\
-
 Topic 27 & Le pouvoir politique et les affaires publiques \\
-
 Topic 28 & L'amour, le bonheur et les sentiments \\
-
 Topic 29 & L'insurrection et la révolution \\
 
 \bottomrule
@@ -184,88 +128,119 @@ Cette étape permet de passer d'une simple liste de topics à une analyse plus s
 
 Une fois le modèle entraîné, les centres des clusters ont été analysés afin d'identifier les termes les plus représentatifs de chaque groupe. Dans K-means, chaque cluster est représenté par un centroïde, c'est-à-dire un point moyen dans l'espace vectoriel. Les termes les plus fortement associés à ce centroïde permettent de comprendre le contenu thématique du cluster.
 
-\begin{lstlisting}[language=Python, caption={Extraction des mots les plus représentatifs par cluster}]
-terms = vectorizer.get_feature_names_out()
-centres = kmeans.cluster_centers_
+Cette étape est comparable à l'extraction des mots dominants dans la NMF. Elle permet d'associer chaque cluster à un ensemble de termes caractéristiques. Cependant, l'interprétation est légèrement différente : dans la NMF, les mots sont associés à un topic latent ; dans K-means, ils décrivent le centre lexical d'un groupe de segments. Autrement dit, les mots obtenus indiquent ce qui rapproche les segments d'un même cluster.
 
-for i, centre in enumerate(centres):
-    top_indices = centre.argsort()[::-1][:10]
-    mots = [terms[j] for j in top_indices]
-    print(f"Cluster {i+1} :", " | ".join(mots))
-\end{lstlisting}
+\begin{longtable}{p{2cm}p{11.5cm}}
+\caption{Mots caractéristiques des clusters obtenus avec K-means} \\
+\toprule
+\textbf{Cluster} & \textbf{Mots caractéristiques} \\
+\midrule
+\endfirsthead
 
-Cette étape est comparable à l'extraction des mots dominants dans le NMF. Elle permet d'associer chaque cluster à un ensemble de termes caractéristiques. Cependant, l'interprétation est légèrement différente : dans le NMF, les mots sont associés à un topic latent ; dans K-means, ils décrivent le centre lexical d'un groupe de segments. Autrement dit, les mots obtenus indiquent ce qui rapproche les segments d'un même cluster.
+\toprule
+\textbf{Cluster} & \textbf{Mots caractéristiques} \\
+\midrule
+\endhead
+Cluster 1 & verre, petit, table, maman, coup, femme, vin, eau, tête, homme \\
+Cluster 2 & instituteur, école, enfant, vérité, élève, petit, église, père, classe, bon \\
+Cluster 3 & salon, dame, femme, monsieur, petit, blanc, satin, homme, jeune, rose \\
+Cluster 4 & chambre, porte, lit, monsieur, heure, femme, petit, maison, escalier, fenêtre \\
+Cluster 5 & enfant, femme, nourrice, petit, usine, constance, fille, mari, monsieur, cher \\
+Cluster 6 & mère, fille, petit, enfant, père, femme, fils, bon, jeune, œil \\
+Cluster 7 & train, gare, chef, machine, voie, heure, express, mécanicien, tunnel, voyageur \\
+Cluster 8 & amour, cœur, vie, jeune, enfant, femme, fille, jour, homme, tendresse \\
+Cluster 9 & comte, comtesse, monsieur, scène, loge, femme, prullière, homme, théâtre, dame \\
+Cluster 10 & abbé, prêtre, curé, monsieur, église, bon, tête, petit, frère, enfant \\
+Cluster 11 & arbre, soleil, herbe, ciel, eau, ombre, jardin, blanc, haut, terre \\
+Cluster 12 & grotte, saint, miracle, cierge, prêtre, malade, foule, foi, père, église \\
+Cluster 13 & docteur, médecin, monsieur, enfant, mère, petit, malade, heure, œil, lit \\
+Cluster 14 & sœur, malade, hyacinthe, wagon, saint, train, petit, compartiment, pèlerin, grotte \\
+Cluster 15 & insurgé, ville, national, fusil, barricade, républicain, homme, garde, ouvrier, rue \\
+Cluster 16 & rue, boutique, trottoir, petit, quartier, maison, femme, bel, halle, heure \\
+Cluster 17 & femme, jeune, amant, chambre, main, pensée, œil, bras, nuit, homme \\
+Cluster 18 & empereur, ministre, monsieur, député, colonel, homme, affaire, préfet, gouvernement, ami \\
+Cluster 19 & travail, vie, enfant, terre, petit, usine, ouvrier, peuple, œuvre, homme \\
+Cluster 20 & bourse, million, franc, action, cours, banque, universelle, monsieur, hausse, argent \\
+Cluster 21 & franc, argent, monsieur, femme, homme, jeune, jour, billet, somme, bon \\
+Cluster 22 & monsieur, dame, femme, petit, porte, bon, fille, air, homme, chambre \\
+Cluster 23 & tableau, peintre, toile, peinture, œuvre, art, atelier, femme, artiste, salon \\
+Cluster 24 & fosse, mineur, coron, camarade, berline, homme, ouvrier, puits, grève, porion \\
+Cluster 25 & vendeur, rayon, magasin, comptoir, dame, soie, vente, client, bonheur, franc \\
+Cluster 26 & prussien, soldat, armée, général, route, homme, cheval, capitaine, corps, canon \\
+Cluster 27 & cardinal, pape, palais, éminence, livre, prêtre, monde, église, peuple, prélat \\
+Cluster 28 & frère, modèle, petit, père, vérité, président, homme, crime, justice, écriture \\
+Cluster 29 & père, terre, vieux, petit, coup, bon, vache, homme, paysan, bête \\
+\bottomrule
+\end{longtable}
 
 Cette extraction permet de vérifier la cohérence interne des clusters. Lorsqu'un cluster rassemble des mots appartenant au même champ lexical, il devient plus facilement interprétable. À l'inverse, un cluster contenant des mots trop dispersés ou peu cohérents peut indiquer un regroupement moins stable ou plus difficile à nommer.
 
 \subsubsection{Nomination des clusters}
 
-Les clusters ont ensuite été nommés manuellement à partir des mots les plus représentatifs et de l'observation des segments associés. Cette étape est indispensable, car K-means ne produit pas directement des intitulés interprétables. Comme pour le NMF, le passage du résultat numérique à l'interprétation thématique repose donc sur une lecture qualitative.
+Les clusters ont ensuite été nommés manuellement à partir des mots les plus représentatifs et de l'observation des segments associés. Cette étape est indispensable, car K-means ne produit pas directement des intitulés interprétables. Comme pour la NMF, le passage du résultat numérique à l'interprétation thématique repose donc sur une lecture qualitative.
 
-\begin{lstlisting}[language=Python, caption={Attribution manuelle des noms de clusters}]
-noms_clusters_kmeans = {
-    1: "La table, les repas et les boissons",
-    2: "L'ecole, les eleves et l'instruction",
-    3: "Le salon, l'aristocratie et les apparences",
-    4: "La chambre, le lit et l'espace domestique",
-    5: "L'enfance, la maternite et la pauvrete",
-    6: "La mere, les enfants et la famille",
-    7: "Le monde ferroviaire",
-    8: "L'amour, les sentiments et la jeunesse",
-    9: "Le theatre, la loge et les scenes mondaines",
-    10: "Le clerge et la paroisse",
-    11: "La nature et le paysage",
-    12: "Le miracle, le pelerinage et la religion",
-    13: "Le monde medical et la sante",
-    14: "Le pelerinage, la maladie et le voyage",
-    15: "L'insurrection et la revolution",
-    16: "Le quartier, la rue et la ville",
-    17: "Le desir, le corps et les relations amoureuses",
-    18: "Le pouvoir politique et les affaires publiques",
-    19: "Le travail, le peuple et le monde ouvrier",
-    20: "La bourse, la finance et les affaires",
-    21: "L'argent du quotidien",
-    22: "Les conversations et les scenes domestiques",
-    23: "Le monde artistique et la peinture",
-    24: "La mine, les ouvriers et la greve",
-    25: "Le magasin, la vente et les clientes",
-    26: "La guerre, les soldats et l'armee",
-    27: "Le pouvoir religieux",
-    28: "Les liens familiaux, l'ecriture et la justice",
-    29: "La terre, les animaux et le monde paysan"
-}
+\begin{longtable}{p{2cm}p{11cm}}
+\caption{Noms attribués aux clusters obtenus avec K-means} \\
+\toprule
+\textbf{Cluster} & \textbf{Nom attribué} \\
+\midrule
+\endfirsthead
 
-df["nom_cluster"] = df["cluster"].map(noms_clusters_kmeans)
-\end{lstlisting}
+\toprule
+\textbf{Cluster} & \textbf{Nom attribué} \\
+\midrule
+\endhead
 
-Les intitulés obtenus montrent que les clusters couvrent des dimensions proches de celles observées avec le NMF. On retrouve par exemple des ensembles liés au travail, à la mine, à la finance, à la religion, à la famille, au monde domestique, à la guerre ou encore aux espaces urbains.
+Cluster 1 & La table, les repas et les boissons \\
+Cluster 2 & L'école, les élèves et l'instruction \\
+Cluster 3 & Le salon, l'aristocratie et les apparences \\
+Cluster 4 & La chambre, le lit et l'espace domestique \\
+Cluster 5 & L'enfance, la maternité et la pauvreté \\
+Cluster 6 & La mère, les enfants et la famille \\
+Cluster 7 & Le monde ferroviaire \\
+Cluster 8 & L'amour, les sentiments et la jeunesse \\
+Cluster 9 & Le théâtre, la loge et les scènes mondaines \\
+Cluster 10 & Le clergé et la paroisse \\
+Cluster 11 & La nature et le paysage \\
+Cluster 12 & Le miracle, le pèlerinage et la religion \\
+Cluster 13 & Le monde médical et la santé \\
+Cluster 14 & Le pèlerinage, la maladie et le voyage \\
+Cluster 15 & L'insurrection et la révolution \\
+Cluster 16 & Le quartier, la rue et la ville \\
+Cluster 17 & Le désir, le corps et les relations amoureuses \\
+Cluster 18 & Le pouvoir politique et les affaires publiques \\
+Cluster 19 & Le travail, le peuple et le monde ouvrier \\
+Cluster 20 & La bourse, la finance et les affaires \\
+Cluster 21 & L'argent du quotidien \\
+Cluster 22 & Les conversations et les scènes domestiques \\
+Cluster 23 & Le monde artistique et la peinture \\
+Cluster 24 & La mine, les ouvriers et la grève \\
+Cluster 25 & Le magasin, la vente et les clientes \\
+Cluster 26 & La guerre, les soldats et l'armée \\
+Cluster 27 & Le pouvoir religieux \\
+Cluster 28 & Les liens familiaux, l'écriture et la justice \\
+Cluster 29 & La terre, les animaux et le monde paysan \\
+\bottomrule
+\end{longtable}
+
+Les intitulés obtenus montrent que les clusters couvrent des dimensions proches de celles observées avec la NMF. On retrouve par exemple des ensembles liés au travail, à la mine, à la finance, à la religion, à la famille, au monde domestique, à la guerre ou encore aux espaces urbains.
 
 Cependant, les clusters K-means ne doivent pas être interprétés comme des catégories fixes ou naturelles. Ils résultent d'un regroupement algorithmique fondé sur la proximité lexicale des segments. Leur nomination repose donc sur un choix interprétatif, à partir des mots les plus représentatifs et des extraits textuels associés.
 
 \subsubsection{Regroupement hiérarchique des clusters}
 
-Afin de mieux comprendre les relations entre les 29 clusters, une classification ascendante hiérarchique a été appliquée aux centres des clusters. Cette étape permet de regrouper les clusters proches entre eux et d'identifier des familles thématiques plus larges. Elle complète donc le K-means en donnant une lecture plus synthétique de la structure thématique du corpus.
+Afin de compléter l’analyse des clusters obtenus avec K-means, une classification ascendante hiérarchique a été appliquée aux centroïdes des 29 clusters. Cette étape permet d’examiner les proximités entre clusters et de regrouper ceux qui présentent des profils lexicaux similaires. Elle offre ainsi une lecture plus synthétique de la structure thématique du corpus, en passant d’une analyse détaillée cluster par cluster à une organisation en grandes familles de motifs.
 
-\begin{lstlisting}[language=Python, caption={Classification hiérarchique sur les centres des clusters}]
-Z = linkage(centres, method="ward")
+La méthode de Ward a été retenue pour construire cette hiérarchie. Elle consiste à fusionner progressivement les clusters en minimisant l’augmentation de la variance interne à chaque regroupement. Le dendrogramme obtenu permet de visualiser les distances entre clusters et d’identifier les principaux rapprochements thématiques.
 
-dendrogram(
-    Z,
-    labels=[f"Cluster {i+1}" for i in range(kmeans.n_clusters)],
-    orientation="right",
-    color_threshold=0.40
-)
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{figure/dendrogramme.png}
+    \caption{Dendrogramme de la classification hiérarchique des clusters K-means}
+    \label{fig:dendrogramme}
+\end{figure}
 
-plt.axvline(x=0.40, color="red", linestyle="--")
-
-plt.title("CAH sur les clusters K-means")
-plt.xlabel("Distance")
-plt.show()
-\end{lstlisting}
-
-La méthode de Ward a été utilisée pour construire la hiérarchie. Elle cherche à regrouper les clusters en minimisant l'augmentation de la variance interne à chaque fusion. Le dendrogramme permet ensuite de visualiser les proximités entre clusters. Le seuil de distance fixé à 0,40 sert à découper l'arbre en grandes familles de motifs.
-
-Cette étape est utile, car 29 clusters peuvent être difficiles à interpréter globalement. Le regroupement hiérarchique permet de passer d'une lecture détaillée, cluster par cluster, à une lecture plus générale, organisée autour de grandes familles thématiques.
+Dans cette analyse, le seuil de distance a été fixé à 0,40 afin de découper l’arbre hiérarchique en grandes familles de motifs. Ce regroupement rend les résultats plus lisibles : les 29 clusters initiaux peuvent être interprétés non seulement individuellement, mais aussi comme des ensembles thématiques plus larges. Cette organisation facilite ensuite la comparaison entre les motifs dominants du corpus et leur répartition dans les romans de Zola.
 
 \subsubsection{Création des grandes familles de motifs}
 

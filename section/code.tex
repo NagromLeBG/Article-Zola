@@ -198,6 +198,32 @@ feature_names = vectorizer.get_feature_names_out()
 afficher_topics(nmf, feature_names)
 \end{lstlisting}
 
+\begin{lstlisting}[language=Python, caption={Extraction des mots les plus représentatifs par cluster}]
+terms = vectorizer.get_feature_names_out()
+centres = kmeans.cluster_centers_
+
+for i, centre in enumerate(centres):
+    top_indices = centre.argsort()[::-1][:10]
+    mots = [terms[j] for j in top_indices]
+    print(f"Cluster {i+1} :", " | ".join(mots))
+\end{lstlisting}
+
 \subsection{Visualisations}
 
-% Coller ici les blocs lstlisting liés aux graphiques, distributions et projections UMAP.
+\begin{lstlisting}[language=Python, caption={Classification hiérarchique sur les centres des clusters}]
+Z = linkage(centres, method="ward")
+
+dendrogram(
+    Z,
+    labels=[f"Cluster {i+1}" for i in range(kmeans.n_clusters)],
+    orientation="right",
+    color_threshold=0.40
+)
+
+plt.axvline(x=0.40, color="red", linestyle="--")
+
+plt.title("CAH sur les clusters K-means")
+plt.xlabel("Distance")
+plt.show()
+\end{lstlisting}
+
