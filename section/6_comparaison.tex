@@ -8,6 +8,22 @@ Contrairement à le NMF, qui attribue à chaque segment un poids pour chacun des
 
 Les intitulés obtenus montrent que les clusters couvrent des dimensions proches de celles observées avec le NMF. On retrouve par exemple des ensembles liés au travail, à la mine, à la finance, à la religion, à la famille, au monde domestique, à la guerre ou encore aux espaces urbains. Cette convergence entre les deux méthodes est intéressante, car elle indique que certains thèmes apparaissent de manière stable dans le corpus, indépendamment de la méthode utilisée.
 
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{figure/headmap_nmf.png}
+    \caption{Headmap des poids des mots dans les topics NMF }
+    \label{fig:comparaison_nmf_kmeans}
+\end{figure}
+    
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{figure/headmap_kmeans.png}
+    \caption{Headmap des poids des mots dans les clusters K-means }
+    \label{fig:comparaison_nmf_kmeans}
+    
+\end{figure}
+
+
 La méthode K-means permet de compléter l'analyse réalisée avec le NMF. Elle offre une autre manière d'observer les régularités thématiques du corpus, non plus sous la forme de topics latents, mais sous la forme de groupes de segments lexicalement proches. Cette approche confirme plusieurs motifs déjà observés avec le NMF, notamment autour du travail, de la religion, de la famille, de l'argent, de la guerre, de la mine, du commerce ou de l'espace domestique.
 
 \subsection{Apport de la double approche}

@@ -207,6 +207,29 @@ for i, centre in enumerate(centres):
     mots = [terms[j] for j in top_indices]
     print(f"Cluster {i+1} :", " | ".join(mots))
 \end{lstlisting}
+\begin{lstlisting}[language=Python, caption={Nomination des grandes familles de motifs}]
+noms_groupes_cah = {
+    1: "Religion locale et autorite clericale",
+    2: "Guerre, insurrection et conflit politique",
+    3: "Institutions, croyances et encadrement social",
+    4: "Argent, dettes et circulation financiere",
+    5: "Vie quotidienne, espaces sociaux et experiences individuelles"
+}
+
+df_groupes["nom_groupe_cah"] = df_groupes["groupe_cah"].map(
+    noms_groupes_cah
+)
+\end{lstlisting}
+
+
+\begin{lstlisting}[language=Python, caption={Attribution des groupes CAH aux segments du corpus}]
+cluster_vers_groupe = dict(
+    zip(df_groupes["cluster"], df_groupes["groupe_cah"])
+)
+
+df["groupe_cah"] = df["cluster"].map(cluster_vers_groupe)
+df["nom_groupe_cah"] = df["groupe_cah"].map(noms_groupes_cah)
+\end{lstlisting}
 
 \subsection{Visualisations}
 
@@ -227,3 +250,27 @@ plt.xlabel("Distance")
 plt.show()
 \end{lstlisting}
 
+\begin{lstlisting}[language=Python, caption={Création des groupes CAH à partir des clusters K-means}]
+groupes_cah = fcluster(Z, t=0.40, criterion="distance")
+
+df_groupes = pd.DataFrame({
+    "cluster": range(1, kmeans.n_clusters + 1),
+    "groupe_cah": groupes_cah
+})
+
+df_groupes["nom_cluster"] = df_groupes["cluster"].map(
+    noms_clusters_kmeans
+)
+\end{lstlisting}
+
+\begin{lstlisting}[language=Python, caption={Nombre de segments par grande famille de motifs}]
+counts = df["nom_groupe_cah"].value_counts().sort_values()
+
+plt.figure(figsize=(10, 6))
+counts.plot(kind="barh")
+
+plt.title("Nombre de segments par grande famille de motifs")
+plt.xlabel("Nombre de segments")
+plt.ylabel("Groupe CAH")
+plt.show()
+\end{lstlisting}

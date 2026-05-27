@@ -246,69 +246,91 @@ Dans cette analyse, le seuil de distance a été fixé à 0,40 afin de découper
 
 À partir du dendrogramme, les clusters ont été regroupés en cinq grandes familles de motifs. Cette opération permet de simplifier l'analyse et de faire apparaître les grandes zones thématiques du corpus.
 
-\begin{lstlisting}[language=Python, caption={Création des groupes CAH à partir des clusters K-means}]
-groupes_cah = fcluster(Z, t=0.40, criterion="distance")
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth,height=18cm,keepaspectratio]{figure/dendrogramme_clusters.png}
+    \caption{Regroupement des clusters K-means en grandes familles de motifs}
+    \label{fig:groupes_cah}
+\end{figure}
 
-df_groupes = pd.DataFrame({
-    "cluster": range(1, kmeans.n_clusters + 1),
-    "groupe_cah": groupes_cah
-})
+Les groupes obtenus ont ensuite été nommés manuellement, en fonction des clusters qu'ils rassemblent. Le tableau suivant présente la composition de chaque grande famille de motifs.
 
-df_groupes["nom_cluster"] = df_groupes["cluster"].map(
-    noms_clusters_kmeans
-)
-\end{lstlisting}
+\begin{longtable}{p{2cm}p{11.5cm}}
+\caption{Composition des grandes familles de motifs issues des clusters K-means} \\
+\toprule
+\textbf{Groupe} & \textbf{Clusters associés} \\
+\midrule
+\endfirsthead
 
-Les groupes obtenus ont ensuite été nommés manuellement, en fonction des clusters qu'ils rassemblent.
+\toprule
+\textbf{Groupe} & \textbf{Clusters associés} \\
+\midrule
+\endhead
 
-\begin{lstlisting}[language=Python, caption={Nomination des grandes familles de motifs}]
-noms_groupes_cah = {
-    1: "Religion locale et autorite clericale",
-    2: "Guerre, insurrection et conflit politique",
-    3: "Institutions, croyances et encadrement social",
-    4: "Argent, dettes et circulation financiere",
-    5: "Vie quotidienne, espaces sociaux et experiences individuelles"
-}
+Groupe 1 & 
+Cluster 12 : Le miracle, le pèlerinage et la religion ; 
+Cluster 14 : Le pèlerinage, la maladie et le voyage. \\
 
-df_groupes["nom_groupe_cah"] = df_groupes["groupe_cah"].map(
-    noms_groupes_cah
-)
-\end{lstlisting}
+Groupe 2 & 
+Cluster 2 : L'école, les élèves et l'instruction ; 
+Cluster 10 : Le clergé et la paroisse ; 
+Cluster 27 : Le pouvoir religieux ; 
+Cluster 28 : Les liens familiaux, l'écriture et la justice. \\
 
-Ces grandes familles permettent d'obtenir une lecture plus synthétique des résultats. La première famille regroupe les thèmes liés à la religion locale et à l'autorité cléricale. La deuxième rassemble les motifs de guerre, d'insurrection et de conflit politique. La troisième renvoie aux institutions, aux croyances et aux formes d'encadrement social. La quatrième concerne l'argent, les dettes et les circulations financières. Enfin, la cinquième regroupe les motifs les plus liés à la vie quotidienne, aux espaces sociaux et aux expériences individuelles.
+Groupe 3 & 
+Cluster 9 : Le théâtre, la loge et les scènes mondaines ; 
+Cluster 18 : Le pouvoir politique et les affaires publiques ; 
+Cluster 20 : La bourse, la finance et les affaires ; 
+Cluster 21 : L'argent du quotidien ; 
+Cluster 22 : Les conversations et les scènes domestiques ; 
+Cluster 25 : Le magasin, la vente et les clientes. \\
+
+Groupe 4 & 
+Cluster 15 : L'insurrection et la révolution ; 
+Cluster 26 : La guerre, les soldats et l'armée. \\
+
+Groupe 5 & 
+Cluster 1 : La table, les repas et les boissons ; 
+Cluster 3 : Le salon, l'aristocratie et les apparences ; 
+Cluster 4 : La chambre, le lit et l'espace domestique ; 
+Cluster 5 : L'enfance, la maternité et la pauvreté ; 
+Cluster 6 : La mère, les enfants et la famille ; 
+Cluster 7 : Le monde ferroviaire ; 
+Cluster 8 : L'amour, les sentiments et la jeunesse ; 
+Cluster 11 : La nature et le paysage ; 
+Cluster 13 : Le monde médical et la santé ; 
+Cluster 16 : Le quartier, la rue et la ville ; 
+Cluster 17 : Le désir, le corps et les relations amoureuses ; 
+Cluster 19 : Le travail, le peuple et le monde ouvrier ; 
+Cluster 23 : Le monde artistique et la peinture ; 
+Cluster 24 : La mine, les ouvriers et la grève ; 
+Cluster 29 : La terre, les animaux et le monde paysan. \\
+
+\bottomrule
+\end{longtable}
+
+Ces grandes familles permettent d'obtenir une lecture plus synthétique des résultats. La première famille regroupe les motifs liés au miracle, au pèlerinage et à la religion. La deuxième rassemble des clusters associés aux formes d'encadrement social, religieux, scolaire et familial. La troisième renvoie davantage aux espaces sociaux, économiques et mondains, en regroupant notamment la finance, le commerce, le théâtre et les conversations domestiques. La quatrième famille réunit les motifs du conflit collectif, de l'insurrection et de la guerre. Enfin, la cinquième regroupe un ensemble plus large de motifs liés à la vie quotidienne, aux espaces sociaux, au travail, à la famille, à la nature et aux expériences individuelles.
 
 Cette structuration est particulièrement utile pour l'analyse littéraire, car elle permet de passer d'une liste de clusters nombreux à une organisation thématique plus lisible. Elle montre aussi que les motifs extraits par K-means ne sont pas isolés, mais peuvent être regroupés en ensembles plus larges correspondant à des dimensions importantes de l'œuvre de Zola.
 
 \subsubsection{Attribution des grandes familles aux segments}
 
-Une fois les groupes hiérarchiques définis, chaque segment du corpus a reçu une étiquette correspondant à la grande famille de motifs associée à son cluster. Cette opération permet d'analyser non seulement les clusters détaillés, mais aussi les grandes catégories thématiques dans lesquelles ils s'inscrivent.
+Une fois les groupes hiérarchiques définis, chaque segment du corpus a reçu une étiquette correspondant à la grande famille de motifs associée à son cluster\footnote{Voir code en annexe}. Cette opération permet d'analyser non seulement les clusters détaillés, mais aussi les grandes catégories thématiques dans lesquelles ils s'inscrivent.
 
-\begin{lstlisting}[language=Python, caption={Attribution des groupes CAH aux segments du corpus}]
-cluster_vers_groupe = dict(
-    zip(df_groupes["cluster"], df_groupes["groupe_cah"])
-)
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{figure/df_annote.png}
+    \caption{Noms attribués aux grandes familles de motifs}
+    \label{fig:noms_groupes_cah}
+\end{figure}
 
-df["groupe_cah"] = df["cluster"].map(cluster_vers_groupe)
-df["nom_groupe_cah"] = df["groupe_cah"].map(noms_groupes_cah)
-\end{lstlisting}
-
-Cette étape permet de relier chaque paquet de phrases à deux niveaux d'analyse. Le premier niveau est le cluster K-means, qui fournit une catégorie thématique fine. Le second niveau est le groupe CAH, qui fournit une catégorie plus générale. Cette double échelle d'interprétation est utile car elle permet d'adapter le niveau de détail selon les besoins de l'analyse : on peut étudier les motifs précis, ou bien observer les grandes tendances du corpus.
+Cette étape permet de relier chaque paquet de phrases à deux niveaux d'analyse. Le premier niveau est le cluster K-means, qui fournit une catégorie thématique fine. Le second niveau est le groupe CAH, qui fournit une catégorie plus générale. Cette double échelle d'interprétation est utile, car elle permet d'adapter le niveau de détail selon les besoins de l'analyse : on peut étudier les motifs précis, ou bien observer les grandes tendances du corpus.
 
 \subsubsection{Analyse de la répartition des clusters}
 
 Après la nomination des clusters et des grandes familles, plusieurs visualisations ont été produites afin d'étudier leur répartition dans le corpus. La première consiste à compter le nombre de segments associés à chaque grande famille de motifs.
 
-\begin{lstlisting}[language=Python, caption={Nombre de segments par grande famille de motifs}]
-counts = df["nom_groupe_cah"].value_counts().sort_values()
 
-plt.figure(figsize=(10, 6))
-counts.plot(kind="barh")
-
-plt.title("Nombre de segments par grande famille de motifs")
-plt.xlabel("Nombre de segments")
-plt.ylabel("Groupe CAH")
-plt.show()
-\end{lstlisting}
 
 Cette visualisation permet d'identifier les grandes familles les plus représentées dans l'ensemble du corpus. Elle donne une lecture globale de l'organisation thématique des segments. Une famille très représentée indique qu'un ensemble de motifs revient fréquemment dans les romans, tandis qu'une famille moins présente peut correspondre à un thème plus spécifique, associé à certains romans ou à certaines situations narratives.
 
@@ -331,30 +353,3 @@ Une analyse similaire a été réalisée au niveau des grandes familles de motif
 
 Cette seconde visualisation offre une lecture plus synthétique. Elle permet de comparer les romans selon les grandes familles de motifs qui les structurent. Cette approche est particulièrement utile pour repérer des oppositions ou des proximités entre les œuvres : certains romans peuvent être dominés par des motifs de vie quotidienne, tandis que d'autres accordent plus de place aux institutions, à la religion, à la guerre ou aux conflits sociaux.
 
-\subsubsection{Projection UMAP des segments}
-
-Une projection UMAP a enfin été utilisée pour représenter les segments dans un espace en deux dimensions. Cette méthode de réduction de dimensionnalité permet de visualiser la manière dont les segments se répartissent selon leur proximité lexicale. Les points sont colorés selon leur grande famille de motifs.
-
-\begin{lstlisting}[language=Python, caption={Projection UMAP des segments par grande famille de motifs}]
-reducer = umap.UMAP(n_components=2, random_state=42)
-X_umap = reducer.fit_transform(X)
-
-plt.figure(figsize=(10, 7))
-
-plt.scatter(
-    X_umap[:, 0],
-    X_umap[:, 1],
-    c=df["groupe_cah"],
-    cmap="tab10",
-    s=10,
-    alpha=0.7
-)
-
-plt.title("Projection UMAP des segments par grande famille de motifs")
-plt.xlabel("UMAP 1")
-plt.ylabel("UMAP 2")
-plt.colorbar(label="Groupe CAH")
-plt.show()
-\end{lstlisting}
-
-Cette visualisation ne doit pas être interprétée comme une preuve définitive de séparation entre les groupes, mais comme un outil exploratoire. Elle permet d'observer si les segments associés à une même famille de motifs tendent à se rapprocher dans l'espace vectoriel. Si certaines zones apparaissent relativement regroupées, cela peut indiquer que les familles thématiques correspondent à des structures lexicales cohérentes. À l'inverse, des zones plus mélangées peuvent signaler des motifs plus transversaux ou des segments hybrides.
