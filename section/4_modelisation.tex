@@ -1,11 +1,11 @@
-\section{Analyse avec NMF et K-means}
+\section{Analyse avec la NMF et K-means}
 Comme mentionné précédemment, deux méthodes d'analyse ont été utilisées pour identifier les thèmes dans les romans de Zola : la NMF (Non-negative Matrix Factorization) et K-means. Cette section présente ces deux méthodes et expose les choix retenus pour leur application au corpus préparé.
 
 \subsection{La méthode NMF}
 
 La NMF est une technique de réduction de dimensionnalité qui permet d'extraire des thèmes à partir d'un corpus de textes. Elle fonctionne en factorisant la matrice terme-document en deux matrices non négatives : une matrice de thèmes et une matrice de poids. La matrice de thèmes contient les mots les plus représentatifs de chaque thème, tandis que la matrice de poids indique l'importance de chaque thème dans chaque document ou paquet de phrases.
 
-La NMF est la première des deux méthodes utilisées pour identifier les thèmes dans les romans de Zola.
+La présentation commence par la NMF, avant d'aborder le clustering par K-means comme méthode complémentaire.
 
 Après la préparation du corpus, la segmentation en paquets de phrases et la lemmatisation des textes, l'étape suivante consiste à appliquer une méthode de modélisation thématique. L'objectif est d'identifier automatiquement les grands thèmes présents dans les romans de Zola, à partir des termes les plus représentatifs de chaque segment textuel.
 
@@ -23,7 +23,7 @@ Ce choix relève d'un arbitrage méthodologique. Plusieurs combinaisons ont ét�
 
 Le choix du nombre de topics constitue une étape importante dans une analyse par NMF. Un nombre trop faible de topics risque de produire des catégories trop générales, qui regroupent plusieurs thèmes différents dans un même ensemble. À l'inverse, un nombre trop élevé de topics peut conduire à une fragmentation excessive des résultats, avec des thèmes trop proches les uns des autres ou difficiles à interpréter.
 
-Afin d'orienter ce choix, une méthode du coude a d'abord été utilisée\footnote{Code visible en annexe}. Elle consiste à entraîner plusieurs modèles NMF avec différents nombres de topics, puis à observer l'évolution de l'erreur de reconstruction. L'idée est de repérer un point à partir duquel l'ajout de nouveaux topics améliore moins fortement la qualité de reconstruction.
+Afin d'orienter ce choix, une méthode du coude a d'abord été utilisée\footnote{Code visible en annexe.}. Elle consiste à entraîner plusieurs modèles NMF avec différents nombres de topics, puis à observer l'évolution de l'erreur de reconstruction. L'idée est de repérer un point à partir duquel l'ajout de nouveaux topics améliore moins fortement la qualité de reconstruction.
 
 \begin{figure}[H]
     \centering
@@ -38,7 +38,7 @@ Le choix du nombre de topics a donc été complété par une analyse qualitative
 
 \subsubsection{Paramétrage du modèle NMF}
 
-Après plusieurs essais, le modèle final a été construit avec 29 topics. Cette valeur a été retenue car elle permettait d'obtenir un niveau de détail suffisant, sans produire une fragmentation trop importante des thèmes ni introduire trop de bruit. Les topics obtenus correspondent à des ensembles thématiques distincts, comme le monde ouvrier, la religion, la famille, la finance, la guerre, le commerce, la médecine ou encore l'espace domestique, comme nous le verrons dans la section consacrée aux résultats.
+Après plusieurs essais, le modèle final a été construit avec 29 topics. Cette valeur a été retenue, car elle permettait d'obtenir un niveau de détail suffisant, sans produire une fragmentation trop importante des thèmes ni introduire trop de bruit. Les topics obtenus correspondent à des ensembles thématiques distincts, comme le monde ouvrier, la religion, la famille, la finance, la guerre, le commerce, la médecine ou encore l'espace domestique, comme nous le verrons dans la section consacrée aux résultats.
 
 Le paramètre \texttt{n\_components=29} correspond au nombre de topics recherchés. Le paramètre \texttt{random\_state=42} permet d'assurer la reproductibilité des résultats. L'initialisation \texttt{nndsvda}\footnote{L'initialisation \texttt{nndsvda} correspond à une variante de NNDSVD dans laquelle les zéros sont remplacés par la moyenne de la matrice. Voir la documentation de \texttt{scikit-learn}.} est adaptée à la NMF, car elle fournit une initialisation stable à partir de la structure de la matrice. Le solveur \texttt{cd}, pour \textit{coordinate descent}, est utilisé pour optimiser la factorisation.
 
@@ -48,7 +48,7 @@ La matrice \texttt{W} contient les poids des topics pour chaque segment du corpu
 
 L’utilisation de la NMF présente plusieurs avantages, notamment sa lisibilité et sa capacité à produire des topics relativement interprétables. Cependant, cette méthode comporte aussi des limites. Le choix du nombre de topics reste en partie subjectif, surtout lorsque la méthode du coude ne permet pas d’identifier une valeur optimale claire. Dans cette analyse, le choix de 29 topics repose donc sur un compromis entre précision, lisibilité et cohérence interprétative. La validation humaine des résultats est donc essentielle pour s'assurer que les topics produits correspondent à des thèmes réels et pertinents dans l'œuvre de Zola.
 
-De plus, les noms attribués aux topics résultent encore une fois d’une interprétation humaine. Deux personnes pourraient parfois proposer des intitulés légèrement différents pour un même groupe de mots. Il est donc important de considérer ces noms comme des outils d’analyse, et non comme des catégories fixes ou définitives. Cette subjectivité ne remet pas en cause la validité de l’analyse, mais elle souligne l’importance d’une approche critique et réflexive dans l’interprétation des résultats.
+De plus, les noms attribués aux topics résultent d’une interprétation humaine. Deux personnes pourraient parfois proposer des intitulés légèrement différents pour un même groupe de mots. Il est donc important de considérer ces noms comme des outils d’analyse, et non comme des catégories fixes ou définitives. Cette subjectivité ne remet pas en cause la validité de l’analyse, mais elle souligne l’importance d’une approche critique et réflexive dans l’interprétation des résultats.
 
 Enfin, les résultats dépendent fortement des choix effectués en amont : nettoyage du texte, lemmatisation, liste de mots à exclure, taille des segments, paramètres du vectoriseur et nombre de topics. La modélisation thématique ne doit donc pas être comprise comme une méthode entièrement automatique, mais comme un processus exploratoire qui combine traitement statistique et interprétation qualitative avec validation humaine à chaque étape.
 
@@ -58,7 +58,7 @@ Cette étape de modélisation par NMF permet d'obtenir une première cartographi
 
 La NMF constitue donc un outil pertinent pour explorer les thèmes récurrents dans un corpus littéraire volumineux. Elle ne remplace pas l’analyse littéraire, mais elle permet de faire apparaître des régularités lexicales et thématiques qui peuvent ensuite être interprétées plus finement. Dans le cadre de cette étude, elle sert à établir une base quantitative pour l’analyse des thèmes présents dans les romans de Zola.
 
-\subsection{La méthode du K-means}
+\subsection{La méthode K-means}
 
 Après l'application de la NMF, une seconde méthode a été utilisée afin de compléter l'analyse thématique du corpus : le clustering par K-means. Contrairement à la NMF, qui cherche à décomposer la matrice terme-document en topics latents, K-means vise à regrouper les segments textuels en ensembles homogènes à partir de leur proximité lexicale. L'objectif n'est donc pas exactement le même : la NMF permet d'identifier des thèmes sous forme de combinaisons de mots, tandis que K-means permet de regrouper les paquets de phrases qui présentent des profils lexicaux similaires.
 
@@ -74,7 +74,7 @@ Ce choix permet de travailler sur une matrice plus lisible et plus pertinente po
 
 Le choix du nombre de clusters est une étape centrale dans l'utilisation de K-means. Un nombre trop faible de clusters risque de produire des groupes trop généraux, dans lesquels plusieurs thèmes différents seraient mélangés. À l'inverse, un nombre trop élevé peut produire des groupes trop fragmentés, difficiles à interpréter ou très proches les uns des autres.
 
-Afin d'orienter ce choix, plusieurs valeurs de \texttt{k} ont été testées. Pour chaque valeur comprise entre 2 et 40, un modèle K-means a été entraîné, puis évalué à l'aide du score de silhouette\footnote{Peter J. Rousseeuw, « Silhouettes: A graphical aid to the interpretation and validation of cluster analysis », \textit{Journal of Computational and Applied Mathematics}, vol. 20, 1er novembre 1987, p. 53–65 }. 
+Afin d'orienter ce choix, plusieurs valeurs de \texttt{k} ont été testées. Pour chaque valeur comprise entre 2 et 40, un modèle K-means a été entraîné, puis évalué à l'aide du score de silhouette\footnote{Peter J. Rousseeuw, « Silhouettes: A graphical aid to the interpretation and validation of cluster analysis », \textit{Journal of Computational and Applied Mathematics}, vol. 20, 1er novembre 1987, p. 53--65.}.
 
 Ce score mesure la qualité de la séparation entre les clusters : plus il est élevé, plus les segments sont proches des éléments de leur propre cluster et éloignés des autres groupes.
 
@@ -93,7 +93,7 @@ Dans cette analyse, le score de silhouette fournit une indication quantitative, 
 
 Le modèle K-means final a été entraîné avec 29 clusters. Le paramètre \texttt{random\_state=42} permet d'assurer la reproductibilité des résultats, tandis que le paramètre \texttt{n\_init=10} indique que l'algorithme est lancé plusieurs fois avec des initialisations différentes afin de retenir la meilleure solution.
 
-Chaque segment du corpus reçoit ainsi un numéro de cluster après l'entraînement du modèle.. L'ajout de \texttt{+ 1} permet de numéroter les clusters à partir de 1 plutôt qu'à partir de 0, ce qui rend les résultats plus lisibles dans les tableaux et les visualisations. Chaque paquet de phrases est donc associé à un groupe thématique déterminé par sa proximité avec les autres segments du corpus.
+Chaque segment du corpus reçoit ainsi un numéro de cluster après l'entraînement du modèle. L'ajout de \texttt{+ 1} permet de numéroter les clusters à partir de 1 plutôt qu'à partir de 0, ce qui rend les résultats plus lisibles dans les tableaux et les visualisations. Chaque paquet de phrases est donc associé à un groupe thématique déterminé par sa proximité avec les autres segments du corpus.
 
 
 \subsubsection{Limites de l'approche par K-means}

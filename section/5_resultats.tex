@@ -6,6 +6,7 @@
 Une fois le modèle entraîné, les mots les plus importants de chaque topic ont été extraits afin de faciliter leur interprétation. Cette étape est essentielle, car le NMF ne produit pas directement des noms de thèmes : elle produit des groupes de mots. L'attribution d'un nom à chaque topic repose donc sur une analyse qualitative des termes les plus représentatifs.
 
 Le tableau suivant présente les dix mots les plus caractéristiques de chaque topic obtenu avec la NMF. Ces mots servent de base à l'interprétation qualitative des thèmes extraits par le modèle.
+\newpage
 
 \begin{longtable}{p{1.8cm}p{11.5cm}}
 \caption{Mots caractéristiques des topics obtenus avec la NMF} \\
@@ -59,6 +60,8 @@ Les topics obtenus couvrent plusieurs dimensions importantes de l'œuvre de Zola
 \subsubsection{Nommer les topics}
 
 Les topics ont ensuite été nommés manuellement à partir des mots les plus représentatifs et des segments les plus fortement associés. Cette étape constitue une part qualitative importante de l'analyse. Elle permet de transformer les résultats numériques du modèle en catégories interprétables.
+\newpage 
+
 \begin{longtable}{p{2cm}p{11cm}}
 \caption{Noms attribués aux topics obtenus avec la NMF} \\
 \toprule
@@ -107,16 +110,18 @@ Topic 29 & L'insurrection et la révolution \\
 Cette étape montre que l’analyse ne repose pas uniquement sur une extraction automatique. Le modèle propose des regroupements de mots, mais leur interprétation dépend d’un travail humain. Les noms attribués aux topics doivent donc être compris comme des catégories d’analyse construites à partir des résultats du modèle, et non comme des vérités objectives produites automatiquement par l’algorithme.
 
 \subsection{Nombre de segments associés à chaque topic}
-
-\begin{figure}
+\begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{figure/nb_segment_nmf.png}
-    \caption{Score de silhouette selon le nombre de clusters k}
-    \label{fig:silhouette_kmeans}
+    \caption{Nombre de segments associés à chaque topic dominant}
+    \label{fig:segments_topic_dominant}
 \end{figure}
 
+Cette figure présente la répartition des segments du corpus selon leur topic dominant. Elle permet d'observer que les topics ne sont pas représentés de manière parfaitement équilibrée : certains thèmes regroupent un nombre important de segments, tandis que d'autres apparaissent de façon plus marginale. Cette variation est attendue dans un corpus littéraire, car tous les motifs thématiques ne sont pas présents avec la même intensité dans l'ensemble des romans.
 
+Les topics les plus représentés correspondent aux thèmes qui structurent fortement le corpus. Ils renvoient probablement à des motifs récurrents dans l'œuvre de Zola, comme les espaces domestiques, les relations sociales, le travail, la famille ou encore les formes de vie quotidienne. À l'inverse, les topics moins représentés peuvent correspondre à des thèmes plus spécialisés, associés à certains romans précis ou à des univers narratifs plus localisés.
 
+Cette distribution montre donc que la NMF ne produit pas seulement une liste de thèmes, mais permet aussi d'évaluer leur poids relatif dans le corpus. Le nombre de segments associés à chaque topic donne une première indication de l'importance quantitative des thèmes extraits. Il faut toutefois interpréter ces résultats avec prudence : un topic très fréquent n'est pas nécessairement plus important sur le plan littéraire, mais il est plus présent lexicalement dans les segments analysés.
 
 \subsubsection{Attribution d'un topic dominant à chaque segment}
 
@@ -135,6 +140,7 @@ Une fois le modèle entraîné, les centres des clusters ont été analysés afi
 
 Cette étape est comparable à l'extraction des mots dominants dans la NMF. Elle permet d'associer chaque cluster à un ensemble de termes caractéristiques. Cependant, l'interprétation est légèrement différente : dans la NMF, les mots sont associés à un topic latent ; dans K-means, ils décrivent le centre lexical d'un groupe de segments. Autrement dit, les mots obtenus indiquent ce qui rapproche les segments d'un même cluster.
 
+\newpage
 \begin{longtable}{p{2cm}p{11.5cm}}
 \caption{Mots caractéristiques des clusters obtenus avec K-means} \\
 \toprule
@@ -259,7 +265,7 @@ Dans cette analyse, le seuil de distance a été fixé à 0,40 afin de découper
 \end{figure}
 
 Les groupes obtenus ont ensuite été nommés manuellement, en fonction des clusters qu'ils rassemblent. Le tableau suivant présente la composition de chaque grande famille de motifs.
-
+\newpage
 \begin{longtable}{p{2cm}p{11.5cm}}
 \caption{Composition des grandes familles de motifs issues des clusters K-means} \\
 \toprule
