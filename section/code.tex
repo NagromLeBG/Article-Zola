@@ -143,6 +143,14 @@ W = nmf.fit_transform(X)
 H = nmf.components_
 \end{lstlisting}
 
+
+\begin{lstlisting}[language=Python, caption={Attribution du topic dominant à chaque segment}]
+W_norm = W / W.sum(axis=1, keepdims=True)
+
+df["topic_dominant"] = W_norm.argmax(axis=1)
+df["poids_topic"] = W_norm.max(axis=1)
+\end{lstlisting}
+
 \subsection{Clustering par K-means}
 
 \begin{lstlisting}[language=Python, caption={Évaluation du nombre de clusters par score de silhouette}]

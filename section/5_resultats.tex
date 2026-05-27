@@ -106,20 +106,25 @@ Topic 29 & L'insurrection et la révolution \\
 
 Cette étape montre que l’analyse ne repose pas uniquement sur une extraction automatique. Le modèle propose des regroupements de mots, mais leur interprétation dépend d’un travail humain. Les noms attribués aux topics doivent donc être compris comme des catégories d’analyse construites à partir des résultats du modèle, et non comme des vérités objectives produites automatiquement par l’algorithme.
 
+\subsection{Nombre de segments associés à chaque topic}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\textwidth]{figure/nb_segment_nmf.png}
+    \caption{Score de silhouette selon le nombre de clusters k}
+    \label{fig:silhouette_kmeans}
+\end{figure}
+
+
+
+
 \subsubsection{Attribution d'un topic dominant à chaque segment}
 
 Pour analyser plus précisément la répartition des thèmes dans le corpus, un topic dominant a été attribué à chaque segment. Pour cela, les poids de la matrice \texttt{W} ont d'abord été normalisés afin de rendre les contributions des topics comparables entre les segments. Le topic dominant correspond ensuite au topic ayant le poids le plus élevé pour un segment donné.
 
-\begin{lstlisting}[language=Python, caption={Attribution du topic dominant à chaque segment}]
-W_norm = W / W.sum(axis=1, keepdims=True)
-
-df["topic_dominant"] = W_norm.argmax(axis=1)
-df["poids_topic"] = W_norm.max(axis=1)
-\end{lstlisting}
-
 La colonne \texttt{topic\_dominant} indique le topic le plus représenté dans chaque paquet de phrases. La colonne \texttt{poids\_topic} mesure l'intensité de cette association. Plus cette valeur est élevée, plus le segment est clairement associé à un topic spécifique. À l'inverse, un poids faible peut indiquer un segment plus mixte, contenant plusieurs thèmes ou ne correspondant fortement à aucun topic.
 
-Cette étape permet de passer d'une simple liste de topics à une analyse plus structurée de leur répartition dans le corpus. Elle rend possible l'étude du nombre de segments associés à chaque topic, du poids moyen des topics dans l'ensemble du corpus et de la présence des thèmes selon les romans. Elle permettrait également, dans un second temps, d'appliquer un détecteur de motifs sur les segments associés à chaque topic afin d'identifier les motifs narratifs les plus caractéristiques de chaque thème.
+Cette étape permet de passer d'une simple liste de topics à une analyse plus structurée de leur répartition dans le corpus. Elle rend possible l'étude du nombre de segments associés à chaque topic, du poids moyen des topics dans l'ensemble du corpus et de la présence des thèmes selon les romans. Elle permettrait également, dans un second temps, d'appliquer un détecteur de motifs sur les segments associés à chaque topic afin d'identifier les motifs narratifs les plus caractéristiques de chaque thème dans une prochaine analyse.
 
 \subsection{Clusters obtenus avec K-means}
 
@@ -330,26 +335,23 @@ Cette étape permet de relier chaque paquet de phrases à deux niveaux d'analyse
 
 Après la nomination des clusters et des grandes familles, plusieurs visualisations ont été produites afin d'étudier leur répartition dans le corpus. La première consiste à compter le nombre de segments associés à chaque grande famille de motifs.
 
-
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{figure/nb_segment_famille_cluster.png}
+    \caption{Distribution des grandes familles de motifs dans le corpus}
+    \label{fig:distribution_groupes_cah}
+\end{figure}
 
 Cette visualisation permet d'identifier les grandes familles les plus représentées dans l'ensemble du corpus. Elle donne une lecture globale de l'organisation thématique des segments. Une famille très représentée indique qu'un ensemble de motifs revient fréquemment dans les romans, tandis qu'une famille moins présente peut correspondre à un thème plus spécifique, associé à certains romans ou à certaines situations narratives.
 
 Une seconde visualisation a été produite à l'échelle des clusters détaillés.
 
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{figure/nb_segment_cluster.png}
+    \caption{Distribution des clusters K-means dans le corpus}
+    \label{fig:distribution_clusters_kmeans}
+\end{figure}
 
 Cette représentation permet de voir quels clusters sont les plus fréquents dans le corpus. Elle est plus précise que l'analyse par grandes familles, car elle distingue les motifs thématiques particuliers. Elle permet par exemple d'observer séparément les clusters associés à la mine, à la finance, à la religion, à la famille ou au monde domestique.
-
-\subsubsection{Distribution des clusters par œuvre}
-
-Afin d'observer la présence des clusters dans chaque roman, une table croisée a été construite entre les fichiers du corpus et les clusters thématiques. La normalisation par ligne permet d'obtenir, pour chaque œuvre, la proportion de segments associés à chaque cluster.
-
-
-
-Cette analyse est importante, car elle permet de relier les clusters aux romans. Certains clusters peuvent être très transversaux et apparaître dans de nombreuses œuvres, tandis que d'autres peuvent être fortement associés à un roman précis. Par exemple, un cluster lié à la mine peut être particulièrement représenté dans \textit{Germinal}, tandis qu'un cluster lié à la finance peut être plus présent dans \textit{L'Argent}. De la même manière, les clusters associés au commerce peuvent être importants dans \textit{Au Bonheur des dames}, et ceux liés à la guerre dans \textit{La Débâcle}.
-
-Une analyse similaire a été réalisée au niveau des grandes familles de motifs.
-
-
-
-Cette seconde visualisation offre une lecture plus synthétique. Elle permet de comparer les romans selon les grandes familles de motifs qui les structurent. Cette approche est particulièrement utile pour repérer des oppositions ou des proximités entre les œuvres : certains romans peuvent être dominés par des motifs de vie quotidienne, tandis que d'autres accordent plus de place aux institutions, à la religion, à la guerre ou aux conflits sociaux.
 
