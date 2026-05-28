@@ -22,37 +22,37 @@ Cette logique de formatage a également été appliquée en prévision des analy
 \midrule
 \endhead
 
-La confession de Claude & 47253 \\
-Le vœu d'une morte & 38722 \\
-Les mystères de Marseille & 125253 \\
-Thérèse Raquin & 66363 \\
-Madeleine Férat & 97318 \\
-La fortune des Rougon & 116685 \\
-La curée & 105120 \\
-Le ventre de Paris & 110442 \\
-La conquête de Plassans & 113245 \\
-La faute de l'abbé Mouret & 114667 \\
-Son Excellence Eugène Rougon & 126186 \\
-L'assommoir & 158340 \\
-Une page d'amour & 102185 \\
-Nana & 141573 \\
-Pot-Bouille & 134844 \\
-Au Bonheur des dames & 147521 \\
-La joie de vivre & 117255 \\
-Germinal & 164473 \\
-L'œuvre & 130613 \\
-La terre & 163687 \\
-Le rêve & 66379 \\
-La bête humaine & 125418 \\
-L'argent & 143010 \\
-La débâcle & 187046 \\
-Le docteur Pascal & 112713 \\
-Lourdes & 173511 \\
-Rome & 233958 \\
-Paris & 177389 \\
-Fécondité & 220131 \\
-Travail & 198712 \\
-Vérité & 223274 \\
+\textit{La confession de Claude} & 47253 \\
+\textit{Le vœu d'une morte} & 38722 \\
+\textit{Les mystères de Marseille} & 125253 \\
+\textit{Thérèse Raquin} & 66363 \\
+\textit{Madeleine Férat} & 97318 \\
+\textit{La fortune des Rougon} & 116685 \\
+\textit{La curée} & 105120 \\
+\textit{Le ventre de Paris} & 110442 \\
+\textit{La conquête de Plassans} & 113245 \\
+\textit{La faute de l'abbé Mouret} & 114667 \\
+\textit{Son Excellence Eugène Rougon} & 126186 \\
+\textit{L'assommoir} & 158340 \\
+\textit{Une page d'amour} & 102185 \\
+\textit{Nana} & 141573 \\
+\textit{Pot-Bouille} & 134844 \\
+\textit{Au Bonheur des dames} & 147521 \\
+\textit{La joie de vivre} & 117255 \\
+\textit{Germinal} & 164473 \\
+\textit{L'œuvre} & 130613 \\
+\textit{La terre} & 163687 \\
+\textit{Le rêve} & 66379 \\
+\textit{La bête humaine} & 125418 \\
+\textit{L'argent} & 143010 \\
+\textit{La débâcle} & 187046 \\
+\textit{Le docteur Pascal} & 112713 \\
+\textit{Lourdes} & 173511 \\
+\textit{Rome} & 233958 \\
+\textit{Paris} & 177389 \\
+\textit{Fécondité} & 220131 \\
+\textit{Travail} & 198712 \\
+\textit{Vérité} & 223274 \\
 
 \bottomrule
 \end{longtable}
@@ -64,7 +64,19 @@ Cette information est importante pour l'interprétation des résultats, car la l
 
 Pour préparer le corpus à l'analyse thématique, nous avons adopté une procédure visant à produire des unités textuelles comparables et exploitables par les modèles.
 
-Les romans ont été segmentés en paquets de phrases\footnote{Le code pour segmenter les romans est disponible en annexe, dans la section « Segmentation du corpus ».}. Les paquets étaient composés de 40 phrases, ce qui correspond à une taille de texte suffisante pour capturer les thèmes présents dans les romans, tout en permettant une analyse thématique plus fine. Ce choix de taille de paquet reste toutefois arbitraire et pourrait être ajusté en fonction des besoins de l'analyse. Plusieurs tailles de paquets ont été testées\footnote{Différents essais ont été réalisés avec des paquets de 10, 50, 70 et 100 phrases.} et les paquets de 40 phrases ont été retenus, car ils permettent d'obtenir des résultats plus cohérents et significatifs que les autres tailles testées. Ce choix relève d'un arbitrage méthodologique fondé sur des essais empiriques et sur une analyse qualitative des résultats obtenus avec différentes tailles de paquets.
+Les romans ont été segmentés en paquets de phrases\footnote{Le code pour segmenter les romans est disponible en annexe, dans la section « Segmentation du corpus ».}. Chaque paquet est composé de 40 phrases. Cette taille a été retenue car elle offre un compromis entre deux exigences : conserver suffisamment de contexte pour identifier les thèmes présents dans les romans, tout en permettant une analyse plus fine qu'un découpage à l'échelle du chapitre ou de l'œuvre entière.
+
+Ce choix reste toutefois méthodologique et partiellement arbitraire. Plusieurs tailles de paquets ont été testées\footnote{Différents essais ont été réalisés avec des paquets de 10, 50, 70 et 100 phrases.}. Les paquets de 40 phrases ont été retenus, car ils produisaient les résultats les plus cohérents et les plus interprétables parmi les configurations testées. Ce choix n'est donc pas parfait, mais il constitue le meilleur compromis observé dans le cadre de cette analyse.
+
+D'autres modes de segmentation ont également été envisagés, notamment un découpage par chapitre ou par paragraphe. Le découpage par chapitre a été écarté, car les chapitres ne constituent pas des unités suffisamment homogènes en longueur et en contenu. Certains chapitres sont très courts, tandis que d'autres sont beaucoup plus longs, ce qui rend la comparaison entre unités d'analyse plus difficile.
+
+Le découpage par paragraphe a également été étudié, mais il posait plusieurs problèmes. D'abord, les paragraphes varient fortement en longueur : certains sont très courts, tandis que d'autres sont beaucoup plus développés. Cette difficulté pourrait être partiellement corrigée par un filtrage des paragraphes trop courts ou trop longs, mais cela introduirait une étape supplémentaire et rendrait le traitement moins homogène.
+
+Ensuite, l'architecture matérielle des textes n'est pas toujours conservée de manière fiable dans les fichiers disponibles. Certains romans ne présentent plus une mise en page avec des paragraphes clairement identifiables, en particulier lorsque les textes proviennent de formats différents, comme des fichiers \texttt{.txt}, \texttt{.pdf} ou \texttt{.epub}. Or, ce travail s'inscrit dans une perspective d'élargissement du corpus à d'autres romans et à d'autres sources textuelles. Dans ce contexte, la segmentation par phrase apparaît plus facilement généralisable à des formats hétérogènes.
+
+Enfin, la structure interne des romans pose un dernier problème. Les dialogues peuvent être considérés comme des paragraphes indépendants, ce qui produit parfois des unités d'analyse très courtes, composées de seulement quelques mots. Là encore, un filtrage serait possible, mais il complexifierait le protocole et risquerait d'introduire des différences de traitement entre les textes.
+
+Pour ces raisons, le découpage en paquets de 40 phrases a été retenu. Il permet de produire des unités d'analyse relativement homogènes, applicables à l'ensemble du corpus, tout en conservant une quantité suffisante de contexte pour l'analyse thématique.
 \newpage
 \subsection{Statistiques descriptives du corpus}
 
@@ -80,37 +92,37 @@ Les romans ont été segmentés en paquets de phrases\footnote{Le code pour segm
 \midrule
 \endhead
 
-La confession de Claude & 65 \\
-Le vœu d'une morte & 60 \\
-Les mystères de Marseille & 184 \\
-Thérèse Raquin & 80 \\
-Madeleine Férat & 124 \\
-La fortune des Rougon & 154 \\
-La curée & 123 \\
-Le ventre de Paris & 136 \\
-La conquête de Plassans & 165 \\
-La faute de l'abbé Mouret & 171 \\
-Son Excellence Eugène Rougon & 191 \\
-L'assommoir & 228 \\
-Une page d'amour & 166 \\
-Nana & 225 \\
-Pot-Bouille & 207 \\
-Au Bonheur des dames & 198 \\
-La joie de vivre & 164 \\
-Germinal & 225 \\
-L'œuvre & 163 \\
-La terre & 222 \\
-Le rêve & 82 \\
-La bête humaine & 154 \\
-L'argent & 155 \\
-La débâcle & 221 \\
-Le docteur Pascal & 135 \\
-Lourdes & 198 \\
-Rome & 231 \\
-Paris & 206 \\
-Fécondité & 259 \\
-Travail & 208 \\
-Vérité & 227 \\
+\textit{La confession de Claude} & 65 \\
+\textit{Le vœu d'une morte} & 60 \\
+\textit{Les mystères de Marseille} & 184 \\
+\textit{Thérèse Raquin} & 80 \\
+\textit{Madeleine Férat} & 124 \\
+\textit{La fortune des Rougon} & 154 \\
+\textit{La curée} & 123 \\
+\textit{Le ventre de Paris} & 136 \\
+\textit{La conquête de Plassans} & 165 \\
+\textit{La faute de l'abbé Mouret} & 171 \\
+\textit{Son Excellence Eugène Rougon} & 191 \\
+\textit{L'assommoir} & 228 \\
+\textit{Une page d'amour} & 166 \\
+\textit{Nana} & 225 \\
+\textit{Pot-Bouille} & 207 \\
+\textit{Au Bonheur des dames} & 198 \\
+\textit{La joie de vivre} & 164 \\
+\textit{Germinal} & 225 \\
+\textit{L'œuvre} & 163 \\
+\textit{La terre} & 222 \\
+\textit{Le rêve} & 82 \\
+\textit{La bête humaine} & 154 \\
+\textit{L'argent} & 155 \\
+\textit{La débâcle} & 221 \\
+\textit{Le docteur Pascal} & 135 \\
+\textit{Lourdes} & 198 \\
+\textit{Rome} & 231 \\
+\textit{Paris} & 206 \\
+\textit{Fécondité} & 259 \\
+\textit{Travail} & 208 \\
+\textit{Vérité} & 227 \\
 
 \bottomrule
 \end{longtable}

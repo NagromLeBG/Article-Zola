@@ -109,27 +109,68 @@ Topic 29 & L'insurrection et la révolution \\
 
 Cette étape montre que l’analyse ne repose pas uniquement sur une extraction automatique. Le modèle propose des regroupements de mots, mais leur interprétation dépend d’un travail humain. Les noms attribués aux topics doivent donc être compris comme des catégories d’analyse construites à partir des résultats du modèle, et non comme des vérités objectives produites automatiquement par l’algorithme.
 
-\subsection{Nombre de segments associés à chaque topic}
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=\textwidth]{figure/nb_segment_nmf.png}
-    \caption{Nombre de segments associés à chaque topic dominant}
-    \label{fig:segments_topic_dominant}
-\end{figure}
+\subsection{Nombre de segments associés à chaque topic dominant}
 
-Cette figure présente la répartition des segments du corpus selon leur topic dominant. Elle permet d'observer que les topics ne sont pas représentés de manière parfaitement équilibrée : certains thèmes regroupent un nombre important de segments, tandis que d'autres apparaissent de façon plus marginale. Cette variation est attendue dans un corpus littéraire, car tous les motifs thématiques ne sont pas présents avec la même intensité dans l'ensemble des romans.
+Afin d'analyser la répartition des thèmes dans le corpus, un topic dominant a été attribué à chaque segment. Pour cela, les poids de la matrice \texttt{W} ont d'abord été normalisés afin de rendre les contributions des topics comparables entre les segments. Le topic dominant correspond ensuite au topic dont le poids est le plus élevé pour un segment donné.
 
-Les topics les plus représentés correspondent aux thèmes qui structurent fortement le corpus. Ils renvoient probablement à des motifs récurrents dans l'œuvre de Zola, comme les espaces domestiques, les relations sociales, le travail, la famille ou encore les formes de vie quotidienne. À l'inverse, les topics moins représentés peuvent correspondre à des thèmes plus spécialisés, associés à certains romans précis ou à des univers narratifs plus localisés.
+La colonne \texttt{topic\_dominant} indique donc le topic le plus représenté dans chaque paquet de phrases. La colonne \texttt{poids\_topic} mesure l'intensité de cette association : plus cette valeur est élevée, plus le segment est clairement associé à un topic spécifique. À l'inverse, un poids faible peut signaler un segment plus mixte, contenant plusieurs thèmes ou ne correspondant fortement à aucun topic.
 
-Cette distribution montre donc que la NMF ne produit pas seulement une liste de thèmes, mais permet aussi d'évaluer leur poids relatif dans le corpus. Le nombre de segments associés à chaque topic donne une première indication de l'importance quantitative des thèmes extraits. Il faut toutefois interpréter ces résultats avec prudence : un topic très fréquent n'est pas nécessairement plus important sur le plan littéraire, mais il est plus présent lexicalement dans les segments analysés.
+Cette attribution permet de passer d'une simple liste de topics à une analyse plus structurée de leur répartition dans le corpus. Elle rend possible l'étude du nombre de segments associés à chaque topic, du poids moyen des topics dans l'ensemble du corpus et de leur présence selon les romans. Le tableau suivant présente le nombre de segments associés à chaque topic dominant.
 
-\subsubsection{Attribution d'un topic dominant à chaque segment}
+\begin{longtable}{p{10cm}r}
+\caption{Nombre de segments associés à chaque topic dominant} \\
+\toprule
+\textbf{Topic dominant} & \textbf{Nombre de segments} \\
+\midrule
+\endfirsthead
 
-Pour analyser plus précisément la répartition des thèmes dans le corpus, un topic dominant a été attribué à chaque segment. Pour cela, les poids de la matrice \texttt{W} ont d'abord été normalisés afin de rendre les contributions des topics comparables entre les segments. Le topic dominant correspond ensuite au topic ayant le poids le plus élevé pour un segment donné.
+\toprule
+\textbf{Topic dominant} & \textbf{Nombre de segments} \\
+\midrule
+\endhead
 
-La colonne \texttt{topic\_dominant} indique le topic le plus représenté dans chaque paquet de phrases. La colonne \texttt{poids\_topic} mesure l'intensité de cette association. Plus cette valeur est élevée, plus le segment est clairement associé à un topic spécifique. À l'inverse, un poids faible peut indiquer un segment plus mixte, contenant plusieurs thèmes ou ne correspondant fortement à aucun topic.
+L'amour, le bonheur et les sentiments & 335 \\
+La chambre, le lit et l'espace intime & 327 \\
+Le pouvoir politique et les affaires publiques & 266 \\
+Le salon, l'aristocratie et les scènes mondaines & 266 \\
+Le travail, le peuple et la justice sociale & 262 \\
+La nature et le paysage & 229 \\
+L'enfance, la maternité et la pauvreté & 221 \\
+Le corps, la souffrance et la mort & 218 \\
+La table et les repas & 214 \\
+Le clergé et la paroisse & 210 \\
+Le quartier et la ville & 205 \\
+L'argent et la fortune & 187 \\
+Le monde ouvrier et la mine & 185 \\
+La famille, la terre et le monde paysan & 180 \\
+Le miracle, le pèlerinage et la religion & 177 \\
+Le désir, le mariage et les relations amoureuses & 173 \\
+La guerre, les soldats et l'armée & 173 \\
+L'école et l'instruction & 168 \\
+Le monde médical et la santé & 164 \\
+Le commerce alimentaire et les halles & 163 \\
+Les conversations et les scènes domestiques & 162 \\
+Le monde artistique et la peinture & 141 \\
+Le pouvoir religieux & 140 \\
+Le magasin, la vente et les clientes & 136 \\
+L'insurrection et la révolution & 127 \\
+Les liens familiaux, l'écriture et les proches & 104 \\
+Le monde ferroviaire & 94 \\
+La bourse, la finance et les affaires & 69 \\
+Les relations conjugales et la vie domestique & 31 \\
 
-Cette étape permet de passer d'une simple liste de topics à une analyse plus structurée de leur répartition dans le corpus. Elle rend possible l'étude du nombre de segments associés à chaque topic, du poids moyen des topics dans l'ensemble du corpus et de la présence des thèmes selon les romans. Elle permettrait également, dans un second temps, d'appliquer un détecteur de motifs sur les segments associés à chaque topic afin d'identifier les motifs narratifs les plus caractéristiques de chaque thème dans une prochaine analyse.
+\bottomrule
+\end{longtable}
+
+La répartition des segments montre que les topics ne sont pas représentés de manière parfaitement équilibrée. Certains thèmes regroupent un nombre important de segments, tandis que d'autres apparaissent de façon plus marginale. Cette variation est attendue dans un corpus littéraire, car tous les motifs thématiques ne sont pas présents avec la même intensité dans l'ensemble des romans.
+
+Les topics les plus représentés correspondent aux thèmes qui structurent fortement le corpus. Les premiers résultats font apparaître des motifs liés aux sentiments, à l'espace intime, aux relations sociales, au pouvoir politique, aux scènes mondaines ou encore au travail. Ces ensembles renvoient à des dimensions récurrentes de l'œuvre de Zola, dans laquelle les expériences individuelles sont souvent articulées à des milieux sociaux, familiaux, économiques ou institutionnels.
+
+À l'inverse, les topics les moins représentés ne doivent pas être considérés comme moins importants sur le plan littéraire. Ils peuvent correspondre à des univers plus localisés, associés à certains romans précis ou à des situations narratives particulières. C'est notamment le cas de thèmes comme la bourse, le monde ferroviaire ou certaines formes de relations domestiques, qui peuvent être fortement présents dans quelques œuvres sans être répartis de manière uniforme dans l'ensemble du corpus.
+
+Cette distribution montre donc que la NMF ne produit pas seulement une liste de thèmes interprétables : elle permet aussi d'évaluer leur poids relatif dans le corpus. Le nombre de segments associés à chaque topic donne une première indication de l'importance quantitative des thèmes extraits. Cette mesure doit toutefois être interprétée avec prudence : un topic fréquent n'est pas nécessairement plus important sur le plan littéraire, mais il est plus présent lexicalement dans les segments analysés.
+
+Enfin, cette attribution des topics dominants peut servir de base à des analyses complémentaires. Elle permet notamment d'étudier la distribution des topics par œuvre, de comparer les romans entre eux, ou encore d'appliquer ultérieurement un détecteur de motifs aux segments associés à chaque topic afin d'identifier les motifs narratifs les plus caractéristiques de chaque thème.
 
 \subsection{Clusters obtenus avec K-means}
 
@@ -140,7 +181,6 @@ Une fois le modèle entraîné, les centres des clusters ont été analysés afi
 
 Cette étape est comparable à l'extraction des mots dominants dans la NMF. Elle permet d'associer chaque cluster à un ensemble de termes caractéristiques. Cependant, l'interprétation est légèrement différente : dans la NMF, les mots sont associés à un topic latent ; dans K-means, ils décrivent le centre lexical d'un groupe de segments. Autrement dit, les mots obtenus indiquent ce qui rapproche les segments d'un même cluster.
 
-\newpage
 \begin{longtable}{p{2cm}p{11.5cm}}
 \caption{Mots caractéristiques des clusters obtenus avec K-means} \\
 \toprule

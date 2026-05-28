@@ -21,21 +21,33 @@ Ce choix relève d'un arbitrage méthodologique. Plusieurs combinaisons ont ét�
 
 \subsubsection{Choix du nombre de topics}
 
-Le choix du nombre de topics constitue une étape importante dans une analyse par NMF. Un nombre trop faible de topics risque de produire des catégories trop générales, qui regroupent plusieurs thèmes différents dans un même ensemble. À l'inverse, un nombre trop élevé de topics peut conduire à une fragmentation excessive des résultats, avec des thèmes trop proches les uns des autres ou difficiles à interpréter.
+Le choix du nombre de topics constitue une étape importante dans une analyse par NMF. Un nombre trop faible de topics risque de produire des catégories trop générales, dans lesquelles plusieurs thèmes distincts se trouvent regroupés. À l'inverse, un nombre trop élevé peut conduire à une fragmentation excessive des résultats, avec des topics trop proches les uns des autres ou difficiles à interpréter.
 
-Afin d'orienter ce choix, une méthode du coude a d'abord été utilisée\footnote{Code visible en annexe.}. Elle consiste à entraîner plusieurs modèles NMF avec différents nombres de topics, puis à observer l'évolution de l'erreur de reconstruction. L'idée est de repérer un point à partir duquel l'ajout de nouveaux topics améliore moins fortement la qualité de reconstruction.
+Afin d'orienter ce choix, une méthode du coude a d'abord été utilisée\footnote{Code visible en annexe.}. Cette méthode consiste à entraîner plusieurs modèles NMF avec différents nombres de topics, puis à observer l'évolution de l'erreur de reconstruction. L'objectif est d'identifier un éventuel seuil à partir duquel l'ajout de nouveaux topics n'améliore plus fortement la qualité de reconstruction du modèle.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{figure/coude_2_40.png}
+    \caption{Méthode du coude pour le choix du nombre de topics dans la NMF, entre 2 et 40 topics}
+    \label{fig:methode_du_coude_nmf_2_40}
+\end{figure}
+
+La première visualisation présente l'évolution de l'erreur de reconstruction pour un nombre de topics compris entre 2 et 40. On observe une diminution régulière de l'erreur lorsque le nombre de topics augmente. Cette baisse est attendue : plus le modèle dispose de topics, plus il peut reconstruire finement la matrice terme-document. Cependant, la courbe ne présente pas de rupture nette permettant d'identifier un coude évident. Le critère quantitatif ne suffit donc pas, à lui seul, à déterminer un nombre optimal de topics.
+
+Une seconde visualisation a été produite en resserrant l'observation sur une zone plus restreinte, comprise entre 20 et 39 topics. Ce zoom permet d'examiner plus précisément la partie de la courbe dans laquelle plusieurs valeurs candidates pouvaient être envisagées.
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.8\textwidth]{figure/methode_du_coude_nmf.png}
-    \caption{Méthode du coude pour le choix du nombre de topics dans la NMF}
-    \label{fig:methode_du_coude_nmf}
+    \caption{Méthode du coude pour le choix du nombre de topics dans la NMF, entre 20 et 39 topics}
+    \label{fig:methode_du_coude_nmf_20_39}
 \end{figure}
 
-Dans le cas de ce corpus, la méthode du coude ne permet pas d'identifier un seuil clair. L'erreur de reconstruction diminue progressivement lorsque le nombre de topics augmente, mais sans rupture nette. Cela signifie qu'il n'existe pas de valeur optimale évidente à partir de ce seul critère quantitatif.
+Ce second graphique confirme l'absence de seuil clairement marqué. L'erreur de reconstruction continue de diminuer de manière progressive, sans stabilisation brutale ni changement de pente suffisamment net pour imposer une valeur unique. Le choix du nombre de topics ne peut donc pas reposer uniquement sur la méthode du coude.
 
-Le choix du nombre de topics a donc été complété par une analyse qualitative des résultats. Plusieurs valeurs ont été testées, notamment 10, 15, 20, 30 et 35 topics. Les résultats obtenus ont ensuite été comparés en observant les mots caractéristiques de chaque topic, leur cohérence interne et leur capacité à correspondre à des thèmes interprétables dans l'œuvre de Zola.
+Le choix final a ainsi été complété par une analyse qualitative des résultats. Plusieurs valeurs ont été testées, notamment 10, 15, 20, 30 et 35 topics. Les modèles obtenus ont été comparés à partir des mots caractéristiques de chaque topic, de leur cohérence interne et de leur capacité à correspondre à des thèmes interprétables dans l'œuvre de Zola. Dans cette perspective, le choix de 29 topics a été retenu comme un compromis entre précision, lisibilité et stabilité interprétative.
 
+Ce choix a également été mis en relation avec l'analyse par K-means. Le nombre de clusters retenu pour K-means a été fixé à 29 afin de permettre une comparaison directe entre les deux méthodes. Cette seconde approche ne sert pas à prouver définitivement que 29 est le nombre optimal de topics, mais elle permet de vérifier si une structuration thématique comparable apparaît lorsque les segments sont regroupés selon une logique différente. Autrement dit, K-means joue ici un rôle de validation complémentaire : si certains motifs apparaissent à la fois dans les topics NMF et dans les clusters K-means, cela renforce leur pertinence pour l'analyse du corpus.
 \subsubsection{Paramétrage du modèle NMF}
 
 Après plusieurs essais, le modèle final a été construit avec 29 topics. Cette valeur a été retenue, car elle permettait d'obtenir un niveau de détail suffisant, sans produire une fragmentation trop importante des thèmes ni introduire trop de bruit. Les topics obtenus correspondent à des ensembles thématiques distincts, comme le monde ouvrier, la religion, la famille, la finance, la guerre, le commerce, la médecine ou encore l'espace domestique, comme nous le verrons dans la section consacrée aux résultats.
